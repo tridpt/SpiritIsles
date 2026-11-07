@@ -1,0 +1,40 @@
+/* The coastal region shares the persistent world and touch controls. */
+.reef-journey .forest-layout{background:#154d62}
+.reef-journey .forest-head{background:linear-gradient(110deg,#164a64,#236b74);border-color:#ddb586}
+.reef-journey .forest-head small{color:#bce4db}
+.reef-journey .forest-exit{background:#29697a;border-color:#e2c499}
+.reef-journey .forest-auto,.reef-journey .auto-hud{background:linear-gradient(#2e7380,#205665)}
+.reef-journey .auto-hud button,.reef-journey .auto-hud select{background:#174c60;border-color:#81b0ac}
+.reef-journey .forest-field .duel-healths{background:#123e58f2;border-color:#aed8cb}
+.reef-journey .forest-field .squad-unit .squad-unit-info{background:#14485ef2;border-color:#abd8cc}
+.reef-journey .forest-dock{background:linear-gradient(125deg,#19485f,#236a73);border-color:#eccda1}
+.reef-journey .forest-dock .duel-skills>button,.reef-journey .forest-dock .duel-commands>button{background:linear-gradient(#377985,#205669);border-color:#89b8b4;color:#fff2cb}
+.reef-journey .forest-route-note{color:#cae9df}
+.reef-journey .forest-route-panel .travel-choice-list>button{background:linear-gradient(110deg,#377a82,#20566a);border-color:#a6ccbc;color:#fff2cb}
+.reef-journey .forest-route-panel .travel-choice-list strong{font-size:10px;line-height:1.6;color:#fff2cb}
+.reef-journey .forest-route-panel .travel-choice-list small{font-size:9px;line-height:1.6;color:#e1f2e7}
+.reef-journey .forest-route-panel .travel-choice-list>button:disabled{opacity:1}
+.reef-journey .forest-route-panel .travel-choice-list>button:last-child{border-color:#f0bb87;background:linear-gradient(110deg,#805d62,#53566d)}
+.reef-journey .forest-field .forest-caption{background:#123e58e8;border-color:#aed8cb;color:#fdf2cf}
+.reef-journey .forest-road-marks{left:7%;right:20%;top:48%;bottom:4%;opacity:.28;background:radial-gradient(ellipse at 20% 30%,#8b6849 0 3px,transparent 4px),radial-gradient(ellipse at 35% 40%,#8b6849 0 3px,transparent 4px);background-size:90px 70px;mask-image:linear-gradient(90deg,transparent,#000 30%,#000 70%,transparent)}
+.reef-water-lines{animation:reef-water 4s ease-in-out infinite alternate}
+.reef-shore-foam{animation:reef-foam 3.5s ease-in-out infinite alternate}
+.reef-journey .forest-danger-zone{left:3%;top:37%;width:50%;height:43%;border-color:#fff1c5;background:repeating-linear-gradient(165deg,#59dae166 0 16px,#d9fff077 18px 21px,#3399c344 23px 38px);box-shadow:inset 0 0 0 8px #90f5ea33}
+.reef-journey .forest-danger-zone i{background:#e7ffeb;transform:rotate(65deg)}
+.reef-journey .forest-warning{background:#265e79f5;border-color:#ffe3a1}
+.reef-journey .forest-field.reef-opening .reef-crab-belly{fill:#fff5bd;stroke:#ecb16d;stroke-width:3;filter:drop-shadow(0 0 6px #ffe399)}
+.reef-journey .forest-field.reef-opening .forest-boss-unit{outline:2px solid #ffe3a1;outline-offset:5px;border-radius:45%}
+.reef-tidal-burst{position:absolute;inset:22% -15% 0;z-index:19;overflow:hidden;pointer-events:none}
+.reef-tidal-burst i{position:absolute;inset:15% -10% 0;background:linear-gradient(125deg,transparent 5%,#98f8e8bb 33%,#eaffeddd 37%,#55b8ceaa 43%,transparent 58%);border-radius:50%;animation:reef-tidal 1s ease-out both;transform:translateX(80%)}
+.reef-tidal-burst i:nth-child(2){animation-delay:.12s;top:30%}.reef-tidal-burst i:nth-child(3){animation-delay:.24s;top:45%}
+.reef-journey .forest-style-charge .reef-jelly-spark{fill:#fff;filter:drop-shadow(0 0 8px #fff0a1)}
+.reef-reward-entry{display:flex;align-items:center;gap:15px;padding:18px 22px;margin:16px 0 22px;border:1px solid #8ebbb6;border-radius:16px;background:linear-gradient(120deg,#e2f3ed,#faf1d9);color:#28596b}
+.reef-reward-entry>span{display:grid;place-items:center;min-width:48px;height:48px;border-radius:50%;background:#367d88;color:#fff0c7}
+.reef-reward-entry h3{margin:5px 0;font:600 20px var(--font-display)}
+.reef-reward-entry p{margin:5px 0;font-size:12px;line-height:1.8}.reef-reward-entry small{font-size:10px;line-height:1.8}
+@keyframes reef-water{to{transform:translateX(14px);opacity:.5}}
+@keyframes reef-foam{to{opacity:.35;stroke-width:20}}
+@keyframes reef-tidal{to{transform:translateX(-75%);opacity:.1}}
+@media(max-width:450px){.reef-reward-entry{padding:14px;gap:10px}.reef-reward-entry h3{font-size:17px}.reef-reward-entry p{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.reef-journey *,.reef-journey *::before,.reef-journey *::after{animation:none!important;transition:none!important}}
+body.reduced-motion .reef-journey *,body.reduced-motion .reef-journey *::before,body.reduced-motion .reef-journey *::after{animation:none!important;transition:none!important}

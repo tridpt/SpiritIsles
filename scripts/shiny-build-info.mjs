@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const version=JSON.parse(fs.readFileSync('package.json','utf8')).version;
+const read=file=>JSON.parse(fs.readFileSync(`dist/${file}-${version}.json`,'utf8').replace(/^\uFEFF/,''));
+const tap=fs.readFileSync(`dist/ENGINE-${version}.tap`,'utf8');
+const engine=Object.fromEntries(['tests','pass','fail'].map(key=>[key,Number(tap.match(new RegExp(`^# ${key} (\\d+)`,'m'))[1])]));
+assert.equal(engine.tests,455);assert.equal(engine.pass,455);assert.equal(engine.fail,0);
+const full=read('BROWSER'),specs=suites=>suites.flatMap(s=>[...(s.specs||[]),...specs(s.suites||[])]),cases=specs(full.suites);
+assert.equal(cases.length,255);assert.equal(full.stats.unexpected,0);assert.equal(full.stats.flaky,0);assert.equal(full.stats.skipped,0);assert.ok(cases.every(s=>s.tests.every(t=>t.status==='expected')));
+const native=read('ANDROID-SHINY'),visual=read('SHINY-VISUAL'),bundle=read('BUNDLE-CHECK');
+assert.deepEqual(native.consoleErrors,[]);assert.deepEqual(visual.errors,[]);assert.equal(native.installedApkSha256,bundle.sha256);assert.equal(bundle.webAssetCount,130);assert.equal(bundle.allWebAssetsMatchSource,true);assert.equal(bundle.lintErrors,0);
+const report={version,versionCode:33,apk:`DaoLinhThu-${version}.apk`,source:`source-${version}.zip`,engine,browser:{passed:cases.length,failed:0,skipped:0,flaky:0,report:`BROWSER-${version}.json`},visual:{scenes:visual.results.length,report:`SHINY-VISUAL-${version}.json`,additionalFunctionalFrames:16},android:{report:`ANDROID-SHINY-${version}.json`,upgrade:native.upgrade,offline:true,systemUiAnrRecoveries:native.systemUiAnrRecoveries,physicalPhoneTested:false},bundle,completedAt:new Date().toISOString()};
+fs.writeFileSync(`dist/BUILD-INFO-${version}.json`,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({...report,bundle:{sha256:bundle.sha256,webAssets:bundle.webAssetCount}},null,2));

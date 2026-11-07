@@ -1,0 +1,154 @@
+/* Solid reading surfaces and deliberate text contrast, separate from scene lighting. */
+:root {
+  --muted: #526348;
+  --read-ink: #244d35;
+  --read-muted: #536348;
+  --read-gold: #76541f;
+  --read-green: #286342;
+}
+
+.game-shell:not([data-screen="island"]):not([data-screen="decorate"]) {
+  background: #e3ead5;
+}
+.game-page { --line: #bec8a7; }
+.game-page .page-heading { border-bottom-color: #b3c29e; }
+.game-page .page-heading h1 { color: #214b34; text-shadow: none; }
+.game-page .page-heading :is(p, .eyebrow),
+.game-page :is(.eyebrow, .subtle-label, .section-line p, .gentle-note),
+.game-page .hatch-description > p,
+.game-page .building-body > p { color: var(--read-muted); }
+.game-page .text-btn { color: #365d3b; font-weight: 600; }
+.game-shell .btn.secondary, .game-dialog .btn.secondary {
+  color: #3d5332;
+  background-color: #eee3b9;
+  border-color: #9ca16f;
+  border-top-color: #fff9d8;
+}
+.game-shell .btn.primary, .game-dialog .btn.primary {
+  background: linear-gradient(#337848, #205e3c);
+  color: #fff8db;
+}
+.game-shell .btn.primary:hover:not(:disabled), .game-dialog .btn.primary:hover:not(:disabled) {
+  background: linear-gradient(#3b8050, #276641);
+}
+.game-page .resource { color: var(--read-gold); }
+.game-page .btn.primary .resource,
+.game-page .btn.primary .ruins-dust { color: #fff8db; }
+.game-page .egg-tabs button, .game-page .segmented button,
+.game-page .filter-chip { color: #405b38; }
+.game-page .egg-tabs .active, .game-page .segmented .active {
+  color: #fff8db;
+  background: var(--read-green);
+  font-weight: 700;
+}
+.game-page .filter-chip.active { color: #244d35; background: #dfe8c7; border-color: #7b955d; }
+.game-page :is(.hatch-guarantee, .pity-card p, .collection-tease p) { color: var(--read-muted); }
+
+/* Exploration controls remain distinct from unavailable actions. */
+.ruins-explore-tabs button {
+  background: #f7f7e7;
+  border-color: #b8c4a1;
+  color: #405b38;
+  font-weight: 600;
+}
+.ruins-explore-tabs button.active, .ruins-section-tabs button.active {
+  background: var(--read-green);
+  border-color: #214f35;
+  color: #fff8db;
+  font-weight: 700;
+  box-shadow: 0 2px 0 #183e2b;
+}
+.ruins-explore-tabs button > span {
+  color: #654c1e;
+  background: #f4dda0;
+  border-color: #c6a35c;
+}
+.ruins-section-tabs { background: #eef0dc; border-color: #b4c09a; }
+.ruins-section-tabs button { color: #405b38; font-weight: 600; }
+.ruins-explore-tabs button:not(.active):hover,
+.ruins-section-tabs button:not(.active):hover { background: #e0e8c7; }
+
+/* Run resources, floor markers and health are readable at a glance. */
+.ruins-active-wallet > span { color: var(--read-muted); font-size: 9px; }
+.ruins-dust, .ruins-active-wallet > .ruins-dust {
+  color: var(--read-gold);
+  letter-spacing: 0;
+}
+.ruins-active-wallet > .ruins-dust { font-size: 11px; }
+.ruins-run-path::before { height: 2px; background: #a7b88b; }
+.ruins-run-path > span > i { color: #61724a; border-color: #aab98a; }
+.ruins-run-path > span > small { color: var(--read-muted); font-size: 10px; }
+.ruins-run-path > .done > i { color: #376035; background: #d5e4b8; border-color: #8ba567; }
+.ruins-run-path > .current > i {
+  background: var(--read-green);
+  color: #fff8db;
+  border-color: #214f35;
+  box-shadow: 0 0 0 4px #d4bd72;
+}
+.ruins-run-path > .current > small { color: #244d35; font-weight: 700; }
+.ruins-team-health, .ruins-path-room, .ruins-combat, .ruins-blessing-room {
+  border-color: #b4c19a;
+}
+.ruins-health-label, .ruins-health-label > small { color: #46633d; }
+.ruins-health-label { font-weight: 600; }
+.ruins-health-label > strong { color: #275437; font-weight: 700; }
+.ruins-team-health > .progress { height: 8px; background: #d4dec0; box-shadow: inset 0 0 0 1px #a5b78d; }
+.ruins-team-health > .progress > span { background: #397a48; }
+.ruins-energy > small { color: var(--read-muted); font-size: 10px; }
+.ruins-energy > i { color: #7b855c; border-color: #c0c8a6; }
+.ruins-energy > i.charged { color: #79551b; background: #f9e7ab; border-color: #b69a52; }
+.ruins-health-tools > .btn b { color: #3e6034; background: #dfe8c7; }
+
+/* Explanations and rewards use dark secondary ink instead of pale grey-green. */
+.game-page :is(
+  .ruins-entry-copy p, .ruins-entry-badge, .ruins-overview-stats > span > span,
+  .ruins-overview-stats b small, .ruins-floor-mark, .ruins-sanctum-body > p,
+  .ruins-journey-facts, .ruins-start-note, .ruins-team-numbers small,
+  .ruins-team-card > p, .ruins-small-note p, .ruins-chapter > i,
+  .ruins-result p, .ruins-relic-intro p, .ruins-relic-level,
+  .ruins-relic-card p, .ruins-active-note, .ruins-path-body > p,
+  .ruins-route-kicker, .ruins-route-choice p, .ruins-route-choice small,
+  .ruins-run-loot > p, .ruins-collected-blessings .section-line > small,
+  .ruins-collected-blessings > p, .ruins-blessing-bag > button > span,
+  .ruins-enemy-health > small, .ruins-arena-turn,
+  .ruins-blessing-room > p, .ruins-blessing-choice p
+) { color: var(--read-muted); }
+.game-page :is(.ruins-relic-effect, .ruins-current-party > strong, .ruins-small-note h3) {
+  color: #365f38;
+}
+.ruins-room-label { color: #405d36; background: #f8faee; border-color: #aebd91; }
+.ruins-route-choice, .ruins-route-choice.elite, .ruins-route-choice.spring,
+.ruins-route-choice.boss { border-color: #b6c09b; }
+.ruins-route-icon, .ruins-route-choice > .icon { color: #4b703d; }
+.ruins-route-choice.elite .ruins-route-icon { color: var(--read-gold); }
+.ruins-route-choice:enabled:hover { border-color: #6f8f4d; }
+
+/* The ten-room journey uses the same reading palette. Scene art keeps its lighting. */
+.game-page :is(
+  .route-launch-copy > p, .route-launch-copy > small, .route-launch-facts,
+  .route-run-header > small, .route-map-heading, .route-map > p,
+  .route-row-number, .route-node > small, .route-option > div > small,
+  .route-option p, .route-option em, .route-event-body > p,
+  .route-event-choice p, .route-event-note, .route-build h4 > small,
+  .route-build p, .route-build i, .route-map-fold > summary
+) { color: var(--read-muted); }
+.game-page :is(.route-event-choice h3, .route-build h4, .route-builds h3) { color: #365f38; }
+.route-event-choice.risky h3, .route-choice-facts > span.cost,
+.route-choice-error { color: #80502d; }
+.route-choice-facts > span { color: #3f622e; }
+.route-build i.lit { color: #365c28; }
+.route-curse :is(strong, p), .route-elite-guide :is(strong, p) { color: #765333; }
+
+.duel-screen .duel-intent { color: #416035; }
+.duel-screen .duel-intent p, .duel-screen .duel-stance-note { color: var(--read-muted); }
+.duel-screen .duel-intent.danger, .duel-screen .duel-intent.danger p { color: #80502d; }
+.duel-screen .duel-stances > button:not([aria-pressed="true"]),
+.duel-screen .duel-targets > button:not([aria-pressed="true"]) { color: #405b38; }
+
+@media (max-width: 600px) {
+  .game-page .page-heading .eyebrow { font-size: 9px; }
+  .ruins-explore-tabs button { font-size: 11px; }
+  .ruins-section-tabs button { font-size: 10px; }
+  .ruins-health-label { font-size: 12px; }
+  .ruins-health-label > strong { font-size: 13px; }
+}

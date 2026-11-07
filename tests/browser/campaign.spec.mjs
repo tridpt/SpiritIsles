@@ -1,0 +1,63 @@
+import {test,expect} from '@playwright/test';
+import {E,C,campaignGame,unlockTo,clearCampaign,campaignNow} from '../campaign-fixtures.mjs';
+import {CAMPAIGN_CHAPTERS,campaignStage} from '../../web/js/campaign-data.js';
+import {combatScene} from '../../web/js/combat-stage.js';
+import {autoOrder} from '../../web/js/auto-play.js';
+import {navigateGame} from './navigation.mjs';
+import fs from 'node:fs';
+const {version}=JSON.parse(fs.readFileSync('package.json','utf8'));
+const read=p=>p.evaluate(key=>JSON.parse(localStorage.getItem(key)).state,E.SAVE_KEY);
+async function seed(page,state=campaignGame()){
+  E.validateSave(E.serialize(state));page.on('pageerror',e=>page._campaignErrors.push(e.message));page._campaignErrors=[];
+  await page.clock.install();await page.clock.pauseAt(new Date(Date.now()+1000));
+  await page.addInitScript(({raw,key})=>{Math.random=()=>.5;if(!sessionStorage.getItem('campaign-seeded')){localStorage.setItem(key,raw);sessionStorage.setItem('campaign-seeded','1');}},{raw:E.serialize(state),key:E.SAVE_KEY});await page.goto('/');await page.evaluate(()=>document.fonts.ready);
+}
+const shot=(p,name)=>p.screenshot({path:`dist/screenshots/campaign-${name}-${version}.png`,fullPage:name.includes('map'),timeout:10000});
+const close=p=>p.getByRole('button',{name:'Đóng',exact:true}).click();
+async function brief(p,id){await p.locator(`.campaign-node[data-id="${id}"] .campaign-node-token`).click();await expect(p.locator('.campaign-brief')).toBeVisible();}
+async function autoWin(p){await p.clock.runFor(180000);await expect(p.locator('.campaign-result')).toBeVisible();expect((await read(p)).expedition).toBeNull();}
+function bossReady(chapter){
+  const s=unlockTo(campaignGame(),`${chapter}-8`);C.startCampaign(s,`${chapter}-8`,campaignNow);
+  for(let i=0;i<90&&s.expedition.stage<2;i++){if(!s.expedition.battle)E.chooseRoute(s,0,()=>.5);else{const {reason,...order}=autoOrder(combatScene(s,'explore'),{plan:s.autoTactics.plan});E.battleTurn(s,order,()=>.5);}}
+  E.chooseRoute(s,0,()=>.5);s.expedition.battle.hp=56;s.expedition.squad.enemies[0].hp=56;return s;
+}
+test.afterEach(async({page})=>{expect(page._campaignErrors||[]).toEqual([]);});
+
+test('campaign menu leads to eight map nodes, chapter locks and a free story preview',async({page})=>{
+  await seed(page,E.newGame());await navigateGame(page,'campaign');await expect(page.locator('.campaign-node')).toHaveCount(8);await expect(page.locator('.campaign-chapters button')).toHaveCount(3);await expect(page.locator('.campaign-node.current')).toHaveAttribute('data-id','forest-1');const before=await read(page);
+  await brief(page,'forest-2');await expect(page.locator('[data-action="campaign-auto"]')).toBeDisabled();await expect(page.locator('.campaign-locked-note')).toContainText('Vượt ải');await close(page);
+  await page.locator('[data-action="campaign-chapter"][data-id="reef"]').click();await expect(page.locator('.campaign-map')).toHaveClass(/chapter-locked/);await brief(page,'reef-8');await expect(page.locator('.campaign-boss-guide')).toContainText('Sóng triều');await expect(page.locator('.campaign-goals li')).toHaveCount(3);await expect(page.locator('[data-action="campaign-start"]')).toBeDisabled();await close(page);expect((await read(page)).resources).toEqual(before.resources);expect((await read(page)).campaign).toEqual(before.campaign);
+});
+test('manual campaign shares real combat, saves per-ally health and resumes with AUTO off',async({page})=>{
+  await seed(page);await navigateGame(page,'campaign');await brief(page,'forest-1');const food=(await read(page)).resources.food;await page.locator('[data-action="campaign-start"]').click();await expect(page.locator('#combat-stage')).toHaveClass(/forest-journey/);await expect(page.locator('#combat-stage .campaign-run-goals')).toContainText('8 lượt');expect((await read(page)).resources.food).toBe(food-10);
+  const expected=structuredClone(await read(page));E.chooseRoute(expected,0,()=>.5);await page.locator('[data-duel="route"]').first().click();expect((await read(page)).expedition).toEqual(expected.expedition);
+  E.battleTurn(expected,'attack',()=>.5);await page.locator('[data-move="attack"]').click();await page.locator('[data-duel="skip"]').click();await page.clock.runFor(1500);expect((await read(page)).expedition).toEqual(expected.expedition);await shot(page,'manual');
+  const checkpoint=(await read(page)).expedition;await page.reload();expect((await read(page)).expedition).toEqual(checkpoint);await page.locator('[data-action="active-battle"][data-id="explore"]').click();await expect(page.locator('[data-duel="auto"]')).toHaveAttribute('aria-checked','false');await page.locator('[data-duel="auto"]').click();await autoWin(page);await expect(page.locator('.campaign-result .campaign-stars')).toHaveAttribute('aria-label','3 trên 3 sao');await shot(page,'first-clear');const finished=await read(page);await page.reload();expect((await read(page)).campaign).toEqual(finished.campaign);expect((await read(page)).resources).toEqual(finished.resources);
+});
+test('AUTO completes a whole paid stage and next story opens without spending another entry cost',async({page})=>{
+  await seed(page);await navigateGame(page,'campaign');await brief(page,'forest-1');await page.locator('[data-action="campaign-auto"]').click();await autoWin(page);await expect(page.locator('.campaign-result')).toContainText('LẦN ĐẦU CHINH PHỤC');const won=await read(page);expect(won.campaign.stages['forest-1'].stars).toBe(3);E.validateSave(E.serialize(won));await page.locator('[data-action="campaign-next"]').click();await expect(page.locator('.campaign-brief-scene h3')).toHaveText('Bầy nấm mất ngủ');expect((await read(page)).resources).toEqual(won.resources);
+});
+for(const ch of CAMPAIGN_CHAPTERS)test(`${ch.name}: phase two shows one boss and two different helpers, survives reload and awards its ornament once`,async({page})=>{
+  await seed(page,bossReady(ch.id));await page.locator('[data-action="active-battle"][data-id="explore"]').click();await expect(page.locator('.forest-field [data-side="enemy"]')).toHaveCount(1);await page.locator('[data-duel="auto"]').click();
+  for(let i=0;i<12;i++){await page.clock.runFor(950);if((await read(page)).expedition?.battle?.campaignPhase===2)break;}
+  expect((await read(page)).expedition.battle.campaignPhase).toBe(2);await page.locator('[data-duel="auto"]').click();await page.clock.runFor(1500);await expect(page.locator('.forest-field [data-side="enemy"]')).toHaveCount(3);await expect(page.locator('.forest-boss-unit')).toHaveCount(1);await expect(page.locator('#combat-stage .campaign-run-goals')).toContainText('PHA 2/2');await shot(page,`${ch.id}-phase-two`);
+  const checkpoint=(await read(page)).expedition;await page.reload();expect((await read(page)).expedition).toEqual(checkpoint);await page.locator('[data-action="active-battle"][data-id="explore"]').click();await expect(page.locator('.forest-field [data-side="enemy"]')).toHaveCount(3);await page.locator('[data-duel="auto"]').click();await autoWin(page);await expect(page.locator('.campaign-decoration-unlock')).toContainText(ch.decorationName);await shot(page,`${ch.id}-chapter-clear`);const won=await read(page);expect(won.campaign.stages[`${ch.id}-8`].wins).toBe(1);await page.reload();expect((await read(page)).campaign).toEqual(won.campaign);
+  await navigateGame(page,'island');await page.locator('[data-action="island-edit-open"]').click();await page.locator('[data-action="island-edit-catalog"]').click();await page.locator('[data-action="island-edit-category"][data-id="treasure"]').click();await expect(page.locator(`.editor-catalog-item[data-id="${ch.decoration}"]`)).toBeEnabled();
+});
+test('three-star sweep spends one or five entries and preserves first rewards and best stars',async({page})=>{
+  const s=campaignGame();clearCampaign(s,'forest-1');await seed(page,s);await navigateGame(page,'campaign');await brief(page,'forest-1');await expect(page.locator('.campaign-brief-rewards')).not.toContainText('THƯỞNG LẦN ĐẦU');const start=await read(page);
+  await page.locator('[data-action="campaign-sweep"][data-count="5"]').click();await expect(page.locator('#game-dialog')).toContainText('Đã dùng 50');const after=await read(page);expect(after.resources.food).toBe(start.resources.food-50);expect(after.resources.gold).toBe(start.resources.gold+campaignStage('forest-1').reward.gold*5);expect(after.resources.tickets).toBe(start.resources.tickets);expect(after.campaign).toEqual(start.campaign);await shot(page,'sweep');await page.locator('[data-action="campaign-map"]').click();await brief(page,'forest-1');await page.locator('[data-action="campaign-sweep"][data-count="1"]').click();expect((await read(page)).resources.food).toBe(after.resources.food-10);await page.reload();expect((await read(page)).campaign).toEqual(start.campaign);
+});
+test('chapter chests pay once and stay claimed after restarting the page',async({page})=>{
+  const s=unlockTo(campaignGame(),'reef-1');await seed(page,s);await navigateGame(page,'campaign');await page.locator('[data-action="campaign-chapter"][data-id="forest"]').click();const tickets=(await read(page)).resources.tickets;
+  for(const n of [8,16,24]){await page.locator(`[data-action="campaign-chest"][data-stars="${n}"]`).click();await expect(page.locator('#game-dialog')).toContainText(`Rương ${n} sao`);await close(page);await expect(page.locator(`[data-action="campaign-chest"][data-stars="${n}"]`)).toBeDisabled();}expect((await read(page)).resources.tickets).toBe(tickets+10);await shot(page,'claimed-map');await page.reload();await navigateGame(page,'campaign');await page.locator('[data-action="campaign-chapter"][data-id="forest"]').click();for(const n of [8,16,24])await expect(page.locator(`[data-action="campaign-chest"][data-stars="${n}"]`)).toBeDisabled();
+});
+for(const viewport of [{width:320,height:640},{width:390,height:844},{width:768,height:1024},{width:1440,height:1000},{width:844,height:390}])test(`chapter maps, boss stories, sweep controls and a live fight fit ${viewport.width}x${viewport.height}`,async({browser})=>{
+  const context=await browser.newContext({viewport,reducedMotion:'reduce',serviceWorkers:'block'}),page=await context.newPage();try{const s=unlockTo(campaignGame(),'volcano-8');await seed(page,s);await navigateGame(page,'campaign');
+    for(const ch of CAMPAIGN_CHAPTERS){await page.locator(`[data-action="campaign-chapter"][data-id="${ch.id}"]`).click();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await shot(page,`map-${ch.id}-${viewport.width}x${viewport.height}`);await brief(page,`${ch.id}-8`);await page.locator('[data-action="campaign-start"]').scrollIntoViewIfNeeded();const bad=await page.locator('.campaign-brief button').evaluateAll(es=>es.filter(e=>e.checkVisibility()).map(e=>{const r=e.getBoundingClientRect();return {label:e.textContent,x:r.x,right:r.right,h:r.height};}).filter(r=>r.x<0||r.right>innerWidth+1||r.h<35));expect(bad).toEqual([]);if(ch.id==='volcano')await shot(page,`brief-${viewport.width}x${viewport.height}`);await close(page);}
+    await page.locator('[data-action="campaign-chapter"][data-id="forest"]').click();await brief(page,'forest-1');await page.locator('[data-action="campaign-start"]').click();await page.locator('[data-duel="route"]').first().click();await expect(page.locator('#combat-stage .campaign-run-goals')).toBeVisible();const bounds=await page.locator('.forest-field').boundingBox();expect(bounds.height).toBeGreaterThan(100);expect(await page.locator('#combat-stage').evaluate(e=>e.scrollWidth<=innerWidth+1)).toBe(true);await shot(page,`fight-${viewport.width}x${viewport.height}`);expect(page._campaignErrors).toEqual([]);
+  }finally{await context.close();}
+});
+test('new campaign modules, map and paid AUTO journey work through the installed offline cache',async({browser})=>{
+  const context=await browser.newContext({viewport:{width:390,height:844},serviceWorkers:'allow',reducedMotion:'reduce'}),page=await context.newPage();try{await seed(page);await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>!!navigator.serviceWorker.controller);await context.setOffline(true);await page.reload();await navigateGame(page,'campaign');await brief(page,'forest-1');await page.locator('[data-action="campaign-auto"]').click();await autoWin(page);const end=await read(page);await page.reload();expect((await read(page)).campaign).toEqual(end.campaign);expect((await read(page)).resources).toEqual(end.resources);expect(page._campaignErrors).toEqual([]);await shot(page,'offline-map');}finally{await context.close();}
+});

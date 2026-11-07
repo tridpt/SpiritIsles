@@ -1,0 +1,9 @@
+android/.gradle/
+android/local.properties
+android/app/build/
+android/build/
+node_modules/
+test-results/
+dist/
+*.log
+.android-audit*/

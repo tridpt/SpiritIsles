@@ -1,0 +1,20 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^\uFEFF/,''));
+const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const {version}=read('package.json');
+const bundle=read(`dist/BUNDLE-CHECK-${version}.json`),source=read(`dist/SOURCE-CHECK-${version}.json`),browser=read(`dist/BROWSER-${version}.json`),engine=read(`dist/ENGINE-${version}.json`),visual=read(`dist/GRAPHICS-FINAL-${version}.json`),world=read(`dist/WORLD-SCENES-${version}.json`),android=read(`dist/ANDROID-GRAPHICS-${version}.json`);
+const recheck=read(`dist/BROWSER-AUTO-GRAPHICS-RECHECK-${version}.json`);
+assert.ok(recheck.stats.expected>0);assert.equal(recheck.stats.unexpected,0);assert.equal(recheck.stats.flaky,0);assert.equal(recheck.stats.skipped,0);
+assert.equal(browser.stats.expected,186);assert.equal(browser.stats.unexpected,0);assert.equal(browser.stats.flaky,0);assert.equal(browser.stats.skipped,0);
+assert.equal(engine.passed,348);assert.equal(engine.failed,0);assert.equal(engine.exitCode,0);
+assert.equal(visual.views.length,35);assert.equal(world.views.length,12);assert.deepEqual(visual.errors,[]);assert.deepEqual(world.errors,[]);
+assert.ok(world.offlineAssets.every(a=>a.cached));assert.equal(world.motionChecks.length,1);
+assert.equal(bundle.bundledFilesVerified,108);assert.equal(bundle.worldArtPrecached,true);assert.equal(bundle.lintErrors,0);assert.equal(bundle.sameSignerAsPrevious,true);
+assert.equal(bundle.sha256,hash(`dist/DaoLinhThu-${version}.apk`));assert.equal(android.installedApkSha256,bundle.sha256);assert.equal(android.savePreserved,true);assert.equal(android.nativeFocusVerifiedBeforeInput,true);assert.deepEqual(android.consoleErrors,[]);
+assert.equal(source.sha256,hash(`dist/source-${version}.zip`));
+for(const v of ['1.19.0','1.20.0']){const previous=read(`dist/BUILD-INFO-${v}.json`);assert.equal(hash(`dist/DaoLinhThu-${v}.apk`),previous.sha256);assert.equal(hash(`dist/source-${v}.zip`),previous.sourceSha256);}
+const result={version,versionCode:28,apk:`dist/DaoLinhThu-${version}.apk`,bytes:bundle.bytes,sha256:bundle.sha256,source:`dist/source-${version}.zip`,sourceFiles:source.filesVerified,sourceBytes:source.bytes,sourceSha256:source.sha256,engine,browser:{passed:186,failed:0,flaky:0,skipped:0,report:`dist/BROWSER-${version}.json`,finalTravelLabelRecheck:{passed:recheck.stats.expected,report:`dist/BROWSER-AUTO-GRAPHICS-RECHECK-${version}.json`}},visual:{mainFrames:35,biomeTravelFrames:12,viewports:[...new Set(visual.views.map(v=>`${v.width}×${v.height}`))],offlineAndReducedMotion:true},android,bundledWebFiles:108,signatureV2Verified:bundle.signatureV2Verified,sameSignerAsPrevious:true,previousReleasesPreserved:true,lint:{errors:bundle.lintErrors,warnings:bundle.lintWarnings},completedAt:new Date().toISOString()};
+fs.writeFileSync(`dist/BUILD-INFO-${version}.json`,JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({version,sha256:bundle.sha256,sourceSha256:source.sha256,engine:348,browser:186,visualFrames:47,nativeOfflineUpgrade:true},null,2));

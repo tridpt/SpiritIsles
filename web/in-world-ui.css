@@ -1,0 +1,85 @@
+/* Game controls belong to the island scene; other screens use the HUD menu. */
+.game-shell .game-menu-toggle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:49px;padding:5px;cursor:pointer}
+.game-menu-toggle>small{font-size:8px;line-height:1;font-weight:700;color:#ffefbc}
+.menu-grid-symbol{display:grid;grid-template-columns:repeat(2,6px);gap:3px}
+.menu-grid-symbol>i{width:6px;height:6px;border:1px solid #fff3c4;border-radius:2px;background:#c7d8a0;box-shadow:0 1px #134b37}
+.game-menu-toggle:hover{filter:brightness(1.12)}
+.island-shortcuts{position:absolute;inset:auto 34px 150px;height:176px;z-index:6;display:grid;grid-template-columns:84px 1fr 84px;grid-template-rows:repeat(2,80px);row-gap:16px;pointer-events:none}
+.island-shortcut{display:flex;align-items:center;flex-direction:column;justify-content:flex-start;gap:6px;border:0;background:transparent;color:#285c43;padding:0;min-width:0;pointer-events:auto;border-radius:15px;cursor:pointer}
+.shortcut-hatch{grid-column:1;grid-row:1}.shortcut-pets{grid-column:1;grid-row:2}.shortcut-build{grid-column:3;grid-row:1}.shortcut-journal{grid-column:3;grid-row:2}
+.shortcut-token{position:relative;display:grid;place-items:center;width:56px;height:54px;border:2px solid #ba9d62;border-top-color:#fff4bb;border-radius:18px;background:linear-gradient(140deg,#fff6cf,#dfc586);box-shadow:inset 0 0 0 3px #fff7d15c,0 4px #5d7b5570,0 7px 14px #275a3e20;color:#a17835;transition:transform .16s,filter .16s}
+.shortcut-pets .shortcut-token{color:#a76a4c;background:linear-gradient(140deg,#ffeacb,#e7bc91)}
+.shortcut-build .shortcut-token{color:#4f7b4a;background:linear-gradient(140deg,#f1f6cc,#b6d197);border-color:#8ea56c;border-top-color:#f4ffd8}
+.shortcut-journal .shortcut-token{color:#806446;background:linear-gradient(140deg,#f7efcf,#d5c398)}
+.island-shortcut>strong{font-size:12px;line-height:1.5;font-weight:700;text-shadow:0 1px #effed8}
+.island-shortcut:hover .shortcut-token{filter:brightness(1.08);transform:translateY(-2px)}
+.lobby-cozy-actions{grid-column:1/-1;justify-self:center;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;width:min(430px,calc(100vw - 260px));align-items:stretch}
+.lobby-cozy-actions .island-edit-entry{position:static;transform:none;min-height:50px;padding:7px 12px;font-size:10px;border-radius:15px}
+.lobby-habitat-hint{display:flex;align-items:center;gap:9px;width:100%;min-width:0;min-height:50px;padding:7px 10px;border:2px solid #aab983;border-top-color:#fff6c9;border-radius:16px;background:linear-gradient(110deg,#f8f1cb,#e8efc9);box-shadow:0 4px #4f795044,0 7px 18px #275a3e20;color:#3c603f;text-align:left;cursor:pointer}
+.lobby-habitat-hint.ready{border-color:#d0a15b;background:linear-gradient(110deg,#fff4c6f5,#dcecc4f5);color:#365d39}
+.lobby-habitat-hint:hover{filter:brightness(1.04)}
+.habitat-hint-token{position:relative;display:grid;place-items:center;width:34px;height:34px;flex-shrink:0;border:1px solid #c8ac68;border-radius:11px;background:#f2dfa2;color:#8a632d}
+.lobby-habitat-hint.ready .habitat-hint-token{background:#f6d78e;color:#915d29;border-color:#c7934e}
+.habitat-hint-token .game-notice{right:-5px;top:-5px}
+.habitat-hint-copy{display:block;flex:1;min-width:0;line-height:1.4}
+.habitat-hint-copy>small{display:block;font-size:7px;letter-spacing:1px;font-weight:800;color:#7b895f}
+.habitat-hint-copy>strong{display:block;overflow:hidden;font-size:11px;line-height:1.55;text-overflow:ellipsis;white-space:nowrap}
+.habitat-hint-copy>em{display:block;overflow:hidden;font-size:9px;line-height:1.5;color:#657752;font-style:normal;text-overflow:ellipsis;white-space:nowrap}
+.lobby-habitat-hint>.icon{flex-shrink:0;color:#718354}
+.game-lobby{min-height:0;padding-bottom:env(safe-area-inset-bottom)}
+.lobby-bottom{bottom:calc(16px + env(safe-area-inset-bottom));pointer-events:none}
+.lobby-bottom>:not(.lobby-cozy-actions),.lobby-cozy-actions>button{pointer-events:auto}
+.main-content.game-page{padding-bottom:calc(28px + env(safe-area-inset-bottom))}
+#toasts{bottom:calc(20px + env(safe-area-inset-bottom));z-index:110}
+.island-menu.game-dialog{width:min(390px,calc(100vw - 28px));max-height:calc(100dvh - 28px);border-radius:24px}
+.island-menu .modal-header{padding:19px 21px;align-items:center}
+.island-menu .modal-header>h2{font-family:var(--font-display);font-size:20px;line-height:1.6}
+.island-menu .modal-header>.icon-button{width:44px;height:44px;flex-shrink:0;border:1px solid #d4cb9e;border-radius:13px;background:#eee8c7;color:#7c7950}
+.island-menu .modal-body{padding:0 20px 22px}
+.game-menu-intro{font-size:11px;line-height:1.9;color:#86916d;margin:0 0 20px}
+.game-menu-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 9px}
+.game-menu-item{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 3px 10px;border:1px solid #ddd5ae;border-top-color:#fffbdd;border-radius:16px;background:linear-gradient(#f7f2d6,#eee6c2);color:#687b4d;min-width:0;min-height:117px;box-shadow:0 3px #b5b58b36;cursor:pointer}
+.menu-token{display:grid;place-items:center;position:relative;width:48px;height:47px;border:1px solid #c5b67d;border-top-color:#fff3c5;border-radius:15px;background:linear-gradient(140deg,#fff8dc,#e9dca8);color:#8e8753;box-shadow:0 3px #b5b48340}
+.game-menu-item[data-page=hatch] .menu-token{color:#b18b36}.game-menu-item[data-page=pets] .menu-token{color:#b77c52}.game-menu-item[data-page=explore] .menu-token{color:#55858a}
+.game-menu-item>strong{font-size:11px;line-height:1.6;font-weight:700;white-space:nowrap}
+.game-menu-item>small{font-size:8px;line-height:1.5;color:#a09e7a}
+.game-menu-item.active{background:linear-gradient(#e5efce,#cddaac);border-color:#9bb77c;box-shadow:0 3px #91a57050;color:#497447}
+.game-menu-item.active .menu-token{color:#fef2c1;background:linear-gradient(#5b9a64,#36784e);border-color:#447a4b;border-top-color:#a5c985}
+.game-menu-item.active>small{color:#789657}
+.game-menu-item:hover{filter:brightness(1.04);border-color:#9aaa71}
+.game-menu-settings{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;text-align:left;border:1px solid #d6d7b4;border-radius:13px;background:#f1f2dc;color:#86946c;padding:11px 13px;margin-top:22px;cursor:pointer}
+.game-menu-settings>span{flex:1;font-size:12px;font-weight:600;line-height:1.7}
+.game-menu-settings small{display:block;font-size:9px;font-weight:400;color:#a1a68a}
+.island-menu::backdrop{background:#123c3280;backdrop-filter:blur(3px)}
+@media(max-width:800px){
+ .game-shell .game-menu-toggle{width:39px;height:49px;border-radius:13px}
+ .island-shortcuts{inset:auto 17px 214px;height:144px;grid-template-columns:70px 1fr 70px;grid-template-rows:repeat(2,67px);row-gap:10px}
+ .shortcut-token{width:48px;height:47px;border-radius:16px}.shortcut-token>.icon{width:25px;height:25px}.island-shortcut{gap:4px}.island-shortcut>strong{font-size:11px}
+ .lobby-bottom{bottom:calc(12px + env(safe-area-inset-bottom))}
+ .lobby-cozy-actions{width:min(400px,calc(100vw - 184px))}
+ .main-content.game-page{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+}
+@media(max-width:600px){
+ .game-shell .game-menu-toggle{width:35px;height:45px;border-radius:12px}.game-menu-toggle>small{font-size:7px}
+ .island-shortcuts{inset:auto 8px 182px;grid-template-columns:62px 1fr 62px;height:138px;grid-template-rows:repeat(2,64px);row-gap:10px}
+ .shortcut-token{width:46px;height:45px;border-radius:15px}.island-shortcut>strong{font-size:10px}
+ .lobby-bottom{bottom:calc(10px + env(safe-area-inset-bottom))}
+ .lobby-cozy-actions{width:calc(100vw - 158px);grid-template-columns:minmax(0,1fr) 44px;gap:6px}
+ .lobby-cozy-actions .island-edit-entry{padding:5px;min-height:48px}.lobby-cozy-actions .island-edit-entry>strong,.lobby-cozy-actions .island-edit-entry>span{display:none}
+ .lobby-habitat-hint{padding:6px 8px;gap:7px;border-radius:14px;min-height:48px}
+ .lobby-habitat-hint>.habitat-hint-token,.lobby-habitat-hint>.icon{display:none}.habitat-hint-copy>strong{font-size:10px}.habitat-hint-copy>em{font-size:8px}.lobby-habitat-hint.ready{box-shadow:0 4px #4f795044,inset 3px 0 #d0a15b}
+ .game-lobby .island-pet-0{left:44%}.game-lobby .island-pet-1{left:55%}.game-lobby .island-pet-2{left:32%}
+ .island-menu .modal-header{padding:14px 15px}.island-menu .modal-header>h2{font-size:18px}.island-menu .modal-body{padding:0 15px 19px}
+ .game-menu-grid{gap:11px 7px}.game-menu-item{min-height:111px}.game-menu-intro{font-size:10px;margin-bottom:17px}.game-menu-item>strong{font-size:10px}
+}
+@media(max-height:740px) and (max-width:600px){
+ .island-shortcuts{bottom:180px;height:122px;grid-template-rows:repeat(2,57px);row-gap:8px}
+ .island-activities.lobby-activities{inset:89px 7px auto;grid-template-rows:76px 76px;row-gap:0}
+ .shortcut-token{width:42px;height:41px;border-radius:13px}.shortcut-token>.icon{width:23px;height:23px}.island-shortcut{gap:3px}.island-shortcut>strong{font-size:9px}
+ .game-lobby .island-world{top:44%}
+ .game-lobby .firefly{top:24%}
+}
+@media(max-height:560px){
+ .island-menu .modal-header{padding:8px 14px}.island-menu .modal-body{padding:0 14px 12px}.game-menu-intro{display:none}.game-menu-item{min-height:83px;padding:7px 3px;gap:3px}.menu-token{width:37px;height:36px;border-radius:11px}.menu-token>.icon{width:24px;height:24px}.game-menu-settings{margin-top:12px;min-height:48px;padding:6px 12px}
+}
+@media(max-width:360px){.habitat-hint-copy>em{display:none}}

@@ -1,0 +1,105 @@
+/* Roaming moves the outer button; gait and expressions move only its artwork. */
+.game-lobby .island-pet{animation:none!important;transition:filter .15s;isolation:isolate;touch-action:manipulation;outline-offset:3px}
+.island-pet-body{width:100%;transform-origin:50% 86%;pointer-events:none}
+.island-pet[data-behavior=walk] .island-pet-body{scale:var(--life-facing,1) 1}
+.game-lobby .island-pet .creature{display:block;animation:none!important}
+.game-lobby .island-pet .pet-body{animation:none}
+.game-lobby .island-pet .island-pet-name{pointer-events:none}
+.island-pet .pet-thought,.island-pet .pet-reaction{position:absolute;left:62%;top:1%;pointer-events:none;font-style:normal;font-weight:700;white-space:nowrap;font-size:13px;color:#fff6cb;text-shadow:0 2px 2px #396c63;z-index:4}
+.island-pet .pet-reaction{opacity:0;top:16%;left:42%;color:#ffeed1;font-size:17px;text-shadow:0 2px #b56b68,0 0 9px #c26a72}
+.life-selected:before,.life-drop-target:before{content:'';position:absolute;inset:26% 12% 2%;border:2px dashed #fff6b3;border-radius:50%;box-shadow:0 0 18px #fff0a670;background:#e1f4a330;z-index:-1}
+.island-pet[data-behavior=nap] .pet-eyes{animation:none!important;transform:scaleY(.12)}
+.island-pet[data-behavior=nap] .island-pet-body{rotate:-8deg;scale:1 .91}
+.island-pet[data-behavior=happy] .pet-eyes,.island-pet[data-behavior=eat] .pet-eyes{animation:none!important;transform:scaleY(.45)}
+.island-care{position:absolute;z-index:12;width:244px;padding:10px 11px 8px;border:2px solid #b99a62;border-top-color:#fff5c6;border-radius:18px;background:linear-gradient(145deg,#fffbe6,#efe5bb);color:#476747;box-shadow:0 5px 0 #52724d50,0 12px 25px #245a4330;pointer-events:auto}
+.island-care[hidden]{display:none}
+.island-care:after{content:'';position:absolute;left:calc(50% - 7px);bottom:-9px;width:13px;height:13px;rotate:45deg;border-right:2px solid #b99a62;border-bottom:2px solid #b99a62;background:#efe5bb}
+.island-care-heading{display:flex;gap:5px;align-items:center}
+.island-care-heading>div{flex:1;min-width:0}.island-care-heading strong{display:block;font-family:var(--font-display);font-size:14px;line-height:1.6}.island-care-heading small{display:flex;align-items:center;gap:3px;font-size:9px;line-height:1.8;color:#8d936a}
+.island-care-heading>button{display:grid;place-items:center;align-self:flex-start;width:44px;height:44px;margin:-4px -4px 0 0;flex-shrink:0;border:1px solid #d9cc9f;background:#f6edcb;color:#9c956e;border-radius:12px;cursor:pointer}
+.island-care-message{margin:5px 0 7px;font-size:9px;line-height:1.7;min-height:16px;color:#869056}
+.island-care-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.island-care-actions>button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:54px;min-width:0;border:1px solid #c2bb8e;border-top-color:#fffcde;border-radius:12px;background:linear-gradient(#fff8d9,#e8dca8);color:#917747;box-shadow:0 2px #c4bb8f;cursor:pointer;font-weight:600}
+.island-care-actions>button:first-child{color:#ba7a7e;background:linear-gradient(#fff1da,#edcdb5)}
+.island-care-actions>.island-food{color:#648451;background:linear-gradient(#edf3cf,#d4dea8);touch-action:none;user-select:none;-webkit-user-select:none}
+.island-care-actions>button:last-child{color:#6d9690}.island-care-actions>button>span{font-size:9px;line-height:1.5;white-space:nowrap}.island-care-actions>button:disabled{opacity:.5;cursor:default}.island-care-actions>button:hover:not(:disabled){filter:brightness(1.06)}
+.island-care-hint{display:block;text-align:center;font-size:8px;line-height:1.7;color:#a39b76;margin-top:7px}
+.island-food-ghost{position:fixed;z-index:130;pointer-events:none;display:grid;place-items:center;width:48px;height:48px;background:#fff0c4e8;border:2px solid #d1ac60;border-radius:50%;transform:translate(-50%,-50%);color:#b37b58;box-shadow:0 5px 14px #315c4d50}
+.island-food-dragging .island-care{opacity:.35;pointer-events:none}.island-food-dragging .island-pet{filter:brightness(1.12)}.island-food-dragging .life-drop-target{filter:brightness(1.3)}
+.island-life-paused .island-pet *{animation-play-state:paused!important}
+.island-care-invite{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-height:44px;margin-top:9px;border:1px solid #40734c;border-top-color:#c5dea0;border-radius:11px;background:linear-gradient(#4d8c59,#2e6845);box-shadow:0 2px #245638;color:#fff6ce;font-size:11px;line-height:1.6;font-weight:700;cursor:pointer}
+.island-care-outings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:9px}
+.island-care-outings .island-care-invite{margin:0;gap:4px;padding:5px 3px;font-size:9px;line-height:1.5}
+.island-care-outings .island-care-invite .icon{flex-shrink:0}
+.island-care-friend{background:linear-gradient(#b9766f,#945450);border-color:#854b46;border-top-color:#f1c7a1;box-shadow:0 2px #713f3b}
+.island-memory{position:absolute;z-index:8;width:188px;pointer-events:auto}
+.island-memory[hidden]{display:none}
+.island-memory>button{position:relative;display:flex;align-items:center;gap:9px;width:100%;min-height:69px;padding:8px 10px 11px;text-align:left;border:2px solid #ad985d;border-top-color:#fff6c8;border-radius:14px;background:#fff5d6;color:#2d563b;box-shadow:0 3px #526a3d66,0 5px 12px #244e3a30;cursor:pointer;overflow:hidden}
+.island-memory>button:disabled{cursor:default;opacity:1}
+.island-memory>button:focus-visible{outline:3px solid #fce399;outline-offset:3px}
+.island-memory-token{display:grid;place-items:center;width:31px;height:34px;flex-shrink:0;color:#927036;border:1px solid #cfb273;border-radius:10px;background:#f5dfa4}
+.island-memory-copy{display:block;min-width:0;flex:1}.island-memory-copy>small{display:block;font-size:7px;line-height:1.6;color:#5d6e45;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.island-memory-copy>strong{display:block;font-size:10px;line-height:1.6;font-weight:700}.island-memory-copy>em{display:block;font-size:8px;line-height:1.7;font-style:normal;color:#49633b}
+.island-memory.compact{width:44px}.island-memory.compact>button{min-height:44px;height:44px;padding:3px;justify-content:center;border-radius:13px}.island-memory.compact .island-memory-token{width:30px;height:30px;border:0;background:none}.island-memory.compact .island-memory-copy{position:absolute;overflow:hidden;clip-path:inset(50%);width:1px;height:1px;white-space:nowrap}.island-memory.compact>button:disabled{pointer-events:none}
+.lobby-habitat-hint.life-hint-covered{visibility:hidden}
+.island-memory.in-hint-slot>button{height:100%;min-height:44px;padding:4px 6px 6px;gap:5px}.island-memory.in-hint-slot .island-memory-token{width:27px;height:29px;border-radius:9px}.island-memory.in-hint-slot .island-memory-token>.icon{width:19px;height:19px}.island-memory.in-hint-slot .island-memory-copy>strong{font-size:9px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.island-memory.in-hint-slot .island-memory-copy>small{font-size:7px;line-height:1.4}.island-memory.in-hint-slot .island-memory-copy>em{font-size:8px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.island-memory-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:#dbdfb5}.island-memory-progress>b{display:block;height:100%;background:#477b4f}
+.island-memory[data-ready=true][data-recorded=false]>button{border-color:#9f7c36;background:linear-gradient(130deg,#fff9dd,#f3e2ad);box-shadow:0 3px #8b713e88,0 0 12px #ffe28c55}.island-memory[data-ready=true] .island-memory-token{background:#3c7850;border-color:#2d6542;color:#fff0b9}
+.pet-life-effects{position:absolute;inset:5% 0 auto;pointer-events:none;color:#fff2b9;font-size:19px;line-height:1.6;font-style:normal;text-align:center;white-space:pre;text-shadow:0 1px 3px #4e7049}
+.island-pet[data-behavior=habitat]:before{content:'';position:absolute;left:12%;right:12%;bottom:5%;height:16%;border:1px solid #fff3b291;border-radius:50%;background:#eff4b22b;box-shadow:0 0 12px #fff2a447;z-index:-1;pointer-events:none}
+.island-pet[data-habitat-pose=nap] .pet-eyes,.island-pet[data-habitat-pose=dream] .pet-eyes{transform:scaleY(.12);animation:none!important}
+.island-pet[data-habitat-pose=nap] .island-pet-body,.island-pet[data-habitat-pose=dream] .island-pet-body{rotate:-8deg;scale:1 .91}
+.island-pet[data-habitat-pose=rest] .island-pet-body{rotate:5deg;scale:.96 .93}
+.island-pet[data-habitat-pose=sunbath] .island-pet-body{rotate:-5deg;scale:1.06 .9}
+.island-pet[data-habitat-pose=warm] .creature{filter:drop-shadow(0 0 7px #ffc878)}
+.island-pet[data-habitat-pose=bubbles] .pet-life-effects{color:#e1fcff;text-shadow:0 1px 3px #398b88}
+.island-pet[data-habitat-pose=aurora] .creature{filter:drop-shadow(0 0 8px #c1f7dd) drop-shadow(0 0 3px #bdb0f5)}
+.layout-piece.life-corner{filter:drop-shadow(0 0 6px #fff1ae80)}
+.island-picnic{position:absolute;z-index:2;height:30px;translate:-50% -40%;pointer-events:none;color:#b4546d}
+.picnic-cloth{position:absolute;inset:1px 0 -6px;display:block;border:2px solid #fff0c8;border-radius:50%;background:repeating-linear-gradient(0deg,#cc787733 0 7px,#fff1cb44 7px 14px),repeating-linear-gradient(90deg,#e29884 0 9px,#f6dcb2 9px 18px);box-shadow:0 3px 3px #3b604433;rotate:-3deg}
+.picnic-basket{position:absolute;left:calc(50% - 14px);bottom:4px;display:grid;place-items:center;width:28px;height:23px;border:2px solid #cfaf69;border-radius:7px 7px 10px 10px;background:linear-gradient(#f9dfa2,#d6aa63);box-shadow:0 2px #a47a43}
+.picnic-share{position:absolute;left:calc(50% - 8px);bottom:19px;filter:drop-shadow(0 1px 1px #fff1cd);opacity:0}
+.island-picnic[data-beat="0"] .picnic-share{opacity:1;translate:calc(var(--picnic-direction)*-12px) 0}
+.island-pet[data-life-partner] .pet-thought{left:50%;top:0;translate:-50% -60%;padding:2px 6px;border:1px solid #debd8a;border-radius:10px;background:#fff1d9;color:#865758;font-size:9px;line-height:1.6;text-shadow:none;box-shadow:0 2px #66764920}
+.island-pet[data-habitat-pose=friends] .island-pet-body{rotate:calc(var(--life-friend-side)*3deg)}
+.island-pet[data-habitat-pose=friends][data-friend-beat="1"] .pet-eyes{transform:scaleY(.48);animation:none!important}
+.island-pet[data-habitat-pose=friends][data-friend-beat="2"] .pet-eyes{transform:scaleY(.32);animation:none!important}
+.island-life-paused .island-picnic *{animation-play-state:paused!important}
+@media(prefers-reduced-motion:no-preference){
+ body:not(.reduced-motion) .island-pet[data-behavior=walk][data-gait=trot] .island-pet-body{animation:life-trot .38s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-behavior=walk][data-gait=hop] .island-pet-body{animation:life-hop .65s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-behavior=walk][data-gait=waddle] .island-pet-body{animation:life-waddle .75s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-gait=glide] .island-pet-body{animation:life-glide 2s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-behavior=play] .island-pet-body{animation:life-play 1.2s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-behavior=sniff] .pet-volume-head{animation:life-sniff 1.3s ease-in-out infinite;transform-origin:90px 100px}
+ body:not(.reduced-motion) .island-pet[data-behavior=happy] .island-pet-body{animation:life-hop .65s ease-in-out 2}
+ body:not(.reduced-motion) .island-pet[data-behavior=eat] .pet-volume-head{animation:life-sniff .45s ease-in-out 3;transform-origin:90px 100px}
+ body:not(.reduced-motion) .life-reaction .pet-reaction{animation:life-heart 1.9s ease-out both}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=swing] .island-pet-body{animation:life-swing 2.3s ease-in-out infinite;transform-origin:50% 10%}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=sniff] .pet-volume-head{animation:life-sniff 1.8s ease-in-out infinite;transform-origin:90px 100px}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=chase] .island-pet-body{animation:life-chase 3.4s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=glide] .island-pet-body,body:not(.reduced-motion) .island-pet[data-habitat-pose=bubbles] .island-pet-body{animation:life-glide 2.8s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=dance] .island-pet-body,body:not(.reduced-motion) .island-pet[data-habitat-pose=bloom] .island-pet-body{animation:life-play 2s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=guard] .island-pet-body,body:not(.reduced-motion) .island-pet[data-habitat-pose=wonder] .island-pet-body{animation:life-bow 3s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=aurora] .island-pet-body{animation:life-glide 3s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-behavior=habitat] .pet-life-effects{animation:life-pollen 3s ease-in-out infinite}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=waiting] .pet-volume-head{animation:life-beckon 1.8s ease-in-out infinite;transform-origin:90px 110px}
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=friends][data-friend-beat="0"][data-life-role=host] .island-pet-body,
+ body:not(.reduced-motion) .island-pet[data-habitat-pose=friends][data-friend-beat="1"][data-life-role=guest] .island-pet-body{animation:life-friend-bow 1.6s ease-in-out infinite}
+ body:not(.reduced-motion) .island-picnic[data-beat="0"] .picnic-share{animation:life-share 1.6s ease-in-out infinite}
+}
+.island-life-still .island-pet *,.island-life-still .island-picnic *{animation:none!important}.island-life-still .life-reaction .pet-reaction{opacity:1}
+@keyframes life-trot{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-3px) rotate(2deg)}}
+@keyframes life-hop{0%,100%{transform:scale(1.03,.97)}45%{transform:translateY(-7px) scale(.98,1.03)}}
+@keyframes life-waddle{0%,100%{transform:rotate(-4deg)}50%{transform:translateY(-2px) rotate(4deg)}}
+@keyframes life-glide{0%,100%{transform:translateY(1px) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
+@keyframes life-play{0%,100%{transform:rotate(-8deg)}40%{transform:translateY(-6px) rotate(8deg)}70%{transform:rotate(-3deg)}}
+@keyframes life-sniff{0%,100%{transform:rotate(0)}50%{transform:translateY(4px) rotate(5deg)}}
+@keyframes life-heart{0%{opacity:0;transform:translateY(5px) scale(.6)}15%,70%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1.15)}}
+@keyframes life-swing{0%,100%{transform:rotate(-7deg)}50%{transform:translateY(-4px) rotate(7deg)}}
+@keyframes life-chase{0%,100%{transform:translateX(-4px) rotate(-4deg)}50%{transform:translate(7px,-3px) rotate(5deg)}}
+@keyframes life-bow{0%,60%,100%{transform:rotate(0)}30%{transform:rotate(9deg) scale(1,.94)}}
+@keyframes life-pollen{0%,100%{translate:0 2px;opacity:.5}50%{translate:3px -8px;opacity:1}}
+@keyframes life-beckon{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(7deg) translateY(-2px)}}
+@keyframes life-friend-bow{0%,100%{transform:rotate(0)}50%{transform:rotate(calc(var(--life-friend-side)*7deg)) translateY(2px)}}
+@keyframes life-share{0%{opacity:0;translate:calc(var(--picnic-direction)*-20px) 0}25%{opacity:1}70%{opacity:1;translate:calc(var(--picnic-direction)*20px) -7px}100%{opacity:0;translate:calc(var(--picnic-direction)*25px) -3px}}
+@media(max-width:600px){.island-care{width:224px;padding:8px 9px 7px;border-radius:16px}.island-care-heading strong{font-size:12px}.island-care-heading small{font-size:8px}.island-care-message{font-size:8px;min-height:14px;margin:3px 0 6px}.island-care-actions>button{min-height:51px}.island-care-actions>button>span{font-size:8px}.island-care-hint{font-size:7px;margin-top:6px}.island-pet .pet-thought{font-size:11px}.island-pet .pet-reaction{font-size:14px}}

@@ -1,0 +1,21 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^\uFEFF/,''));
+const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const {version}=read('package.json');assert.equal(version,'1.24.0');
+const tap=fs.readFileSync(`dist/ENGINE-${version}.tap`,'utf8');
+const number=k=>Number(tap.match(new RegExp(`^# ${k} (\\d+)`,'m'))?.[1]);
+const engine={tests:number('tests'),passed:number('pass'),failed:number('fail'),skipped:number('skipped'),report:`dist/ENGINE-${version}.tap`};
+assert.equal(engine.tests,398);assert.equal(engine.passed,398);assert.equal(engine.failed,0);assert.equal(engine.skipped,0);
+const bundle=read(`dist/BUNDLE-CHECK-${version}.json`),source=read(`dist/SOURCE-CHECK-${version}.json`),browser=read(`dist/BROWSER-${version}.json`),visual=read(`dist/VOLCANO-VISUAL-${version}.json`),extras=read(`dist/VOLCANO-EXTRAS-${version}.json`),android=read(`dist/ANDROID-VOLCANO-${version}.json`);
+assert.equal(browser.stats.expected,232);assert.equal(browser.stats.unexpected,0);assert.equal(browser.stats.skipped,0);assert.equal(browser.stats.flaky,0);
+assert.equal(visual.views.length,35);assert.deepEqual(visual.errors,[]);assert.deepEqual(extras.errors,[]);assert.equal(extras.motion.length,3);assert.equal(extras.audio.length,2);assert.deepEqual(extras.svg,{invalid:false,missing:0});
+assert.equal(bundle.bundledFilesVerified,120);assert.equal(bundle.lintErrors,0);assert.equal(bundle.sameSignerAsPrevious,true);assert.equal(bundle.versionCode,31);
+assert.equal(hash(`dist/DaoLinhThu-${version}.apk`),bundle.sha256);assert.equal(hash(`dist/source-${version}.zip`),source.sha256);assert.equal(android.installedApkSha256,bundle.sha256);assert.deepEqual(android.consoleErrors,[]);
+for(const key of ['savePreserved','nativeTouch','nativeFramesPainted','manualDodgeMatchesEngine','autoDodgesLavaAndBreath','armorBreakMatchesEngine','threePatrolSkins','oneActionPerTurn','persistentWorldAndPet','plannerAndHomePause','nativeBackClosesPlanner','forceStopPreservesSquadAndArmor','autoOffOnReopen','completeTripFiveReports','onePayoutOnly','controlledClockForAuto','offline'])assert.equal(android[key],true,key);
+for(const previousVersion of ['1.19.0','1.20.0','1.21.0','1.22.0','1.23.0']){const previous=read(`dist/BUILD-INFO-${previousVersion}.json`);assert.equal(hash(`dist/DaoLinhThu-${previousVersion}.apk`),previous.sha256);assert.equal(hash(`dist/source-${previousVersion}.zip`),previous.sourceSha256);}
+fs.writeFileSync(`dist/ENGINE-${version}.json`,JSON.stringify(engine,null,2)+'\n');
+const result={version,versionCode:31,apk:`dist/DaoLinhThu-${version}.apk`,bytes:bundle.bytes,sha256:bundle.sha256,source:`dist/source-${version}.zip`,sourceFiles:source.filesVerified,sourceBytes:source.bytes,sourceSha256:source.sha256,engine,browser:{passed:232,failed:0,flaky:0,skipped:0,report:`dist/BROWSER-${version}.json`},visual:{frames:35,viewports:[...new Set(visual.views.map(v=>`${v.width}×${v.height}`))],report:`dist/VOLCANO-VISUAL-${version}.json`},extras,android,bundledWebFiles:120,signatureV2Verified:bundle.signatureV2Verified,sameSignerAsPrevious:true,previousReleasesPreserved:true,lint:{errors:bundle.lintErrors,warnings:bundle.lintWarnings},completedAt:new Date().toISOString()};
+fs.writeFileSync(`dist/BUILD-INFO-${version}.json`,JSON.stringify(result,null,2)+'\n');
+console.log(JSON.stringify({version,sha256:result.sha256,sourceSha256:result.sourceSha256,engine:398,browser:232,volcanicFrames:35,androidOfflineUpgrade:true},null,2));

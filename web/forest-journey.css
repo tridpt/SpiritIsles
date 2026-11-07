@@ -1,0 +1,288 @@
+/* Forest expedition: a persistent world with controls inside the game frame. */
+.duel-screen.forest-journey{width:100%;max-width:none;height:100dvh;max-height:100dvh;margin:0;padding:0;border:0;border-radius:0;overflow:hidden;background:#123e39;color:#ffefc5}
+.forest-layout{position:relative;display:grid;grid-template-rows:62px 60px minmax(180px,1fr) auto;width:100%;height:100%;overflow:hidden;background:#173f39}
+.forest-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 16px;background:linear-gradient(100deg,#16473e,#153b37);border-bottom:1px solid #be9d5e;z-index:40}
+.forest-head small{display:flex;align-items:center;gap:6px;font-size:8px;letter-spacing:1.3px;color:#b7ceaa;line-height:1.5}
+.forest-head h2{margin:2px 0 0;font:700 23px/1.2 var(--font-display);color:#fff0c8;text-shadow:0 2px #0b302e}
+.forest-exit{display:grid;place-items:center;flex-shrink:0;width:44px;height:44px;border:1px solid #b39d62;border-radius:50%;color:#ffedbd;background:#28584a;box-shadow:inset 0 1px #a6c19455}
+.forest-auto{z-index:35;min-width:0;background:#204d40}
+.forest-journey .auto-hud{position:static;display:grid;grid-template-columns:78px 44px minmax(70px,1fr) 44px 44px;gap:6px;padding:8px 12px;border-bottom:1px solid #a3aa6d;background:linear-gradient(#315f49,#244f41)}
+.forest-journey .auto-hud button,.forest-journey .auto-hud select{height:44px;min-width:0;padding:5px;color:#fceac1;border:1px solid #8f9d66;background:#224a3e;box-shadow:inset 0 1px #ccda9450;font-size:10px;line-height:1.4;border-radius:8px}
+.forest-journey .auto-hud .auto-toggle{justify-content:center;gap:4px;font-size:10px;background:#213e37}
+.forest-journey .auto-hud .auto-toggle.active{background:linear-gradient(#e8c679,#bf9447);color:#2f472f;border-color:#f8e0a1;box-shadow:inset 0 1px #fff2bc,0 2px #173a32}
+.forest-journey .auto-hud [data-duel=planner]{font-size:0}
+.forest-journey .auto-hud [data-duel=planner]>.icon{width:21px;height:21px}
+.forest-journey .auto-hud select{width:100%;max-width:none;min-width:0;flex:none;color-scheme:dark}
+.forest-journey .auto-hud small{display:none}
+.duel-screen.forest-journey .forest-field{position:relative;min-height:0;height:100%;width:100%;margin:0;border:0;border-radius:0;isolation:isolate;overflow:hidden;background:#52866c;box-shadow:none}
+.forest-backdrop{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.forest-road-marks{position:absolute;left:-15%;right:-15%;top:53%;bottom:0;opacity:.28;pointer-events:none;background:repeating-linear-gradient(165deg,transparent 0 76px,#fff6bf60 77px 79px,transparent 80px 130px);mask-image:linear-gradient(90deg,transparent 10%,#000 35%,#000 70%,transparent 95%)}
+.forest-field.is-walking .forest-road-marks{animation:forest-ground 2.5s linear infinite;animation-duration:calc(2.5s / var(--forest-speed))}
+.forest-field.is-walking .forest-parallax-far{animation:forest-far 9s ease-in-out infinite alternate}
+.forest-field.is-walking .forest-parallax-near{animation:forest-near 6s ease-in-out infinite alternate}
+.forest-field-hud{position:absolute;top:10px;left:14px;right:14px;z-index:10;pointer-events:none}
+.forest-field .duel-healths{display:flex;gap:14px;padding:8px 10px;border:1px solid #d1dc9b70;border-radius:9px;background:#163f3ce8;box-shadow:0 3px 10px #0b323931}
+.forest-field .duel-healths>div{flex:1;min-width:0}
+.forest-field .duel-healths span{display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:.1px;color:#e8eac2}
+.forest-field .duel-healths b{margin-left:auto;font-size:9px;color:#fff4d0;font-weight:600}
+.forest-field .duel-healths>div>div{height:5px;margin-top:5px;background:#0d302d;border:1px solid #73936c60}
+.forest-field .duel-healths i{background:linear-gradient(90deg,#63b987,#b5d58a)}
+.forest-field .duel-enemy-hp i{background:linear-gradient(90deg,#c56c56,#e8ac72)}
+.forest-field .forest-progress{display:flex;justify-content:center;gap:7px;margin:8px auto 0;width:max-content;max-width:100%}
+.forest-field .forest-progress>span{display:grid;place-items:center;flex:none;width:22px;height:22px;padding:0;border:1px solid #92ad7d99;border-radius:50%;background:#214f44;color:#a3bd91;box-shadow:0 2px 3px #173f3b35}
+.forest-field .forest-progress>.current{color:#3c5935;background:#f0d697;border-color:#fff0c0}
+.forest-field .forest-progress>.passed{color:#edf0c9;background:#4f8157}
+.duel-screen.forest-journey .forest-field .duel-party,.duel-screen.forest-journey .forest-field .duel-opponent{position:absolute;inset:0;width:100%;height:100%;margin:0;filter:none;transform:none;pointer-events:none;z-index:3}
+.duel-screen.forest-journey .forest-field .duel-opponent{z-index:4}
+.forest-field .combat-enemy-team{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.duel-screen.forest-journey .forest-field .squad-unit{position:absolute;left:var(--unit-left);top:var(--unit-top);bottom:auto;right:auto;width:var(--unit-width);height:var(--unit-height);max-width:154px;max-height:158px;min-height:62px;transform:translate(-50%,-50%);translate:none;rotate:none;animation:none!important;pointer-events:auto;transition:left .65s ease,top .65s ease;filter:none}
+.duel-screen.forest-journey .forest-field .forest-boss-unit{max-width:260px;max-height:265px}
+.forest-field .squad-unit>.creature,.forest-field .squad-unit>.guardian-art{width:100%;height:100%;filter:drop-shadow(0 8px 3px #0d3e3a44);transform-origin:50% 85%;overflow:visible}
+.forest-field .squad-unit:disabled{opacity:1}
+.forest-field .squad-role{display:none!important}
+.forest-field .squad-unit .squad-unit-info{left:2%;right:2%;width:96%;bottom:-10px;height:auto;box-sizing:border-box;border:1px solid #a3bb82;border-radius:6px;background:#173f35eF;color:#fff0c5;padding:4px 5px;box-shadow:0 2px 3px #0b362d30;pointer-events:none}
+.forest-field .squad-unit-info>strong{font-size:8px;line-height:1.5;min-height:0;color:#fff1cb;font-weight:500;white-space:normal}
+.forest-field .squad-unit-info>small{font-size:7px;line-height:1.3;color:#d9e6c3}
+.forest-field .squad-unit-info>em{font-size:7px;color:#f4d08a}
+.forest-field .squad-unit-health{height:4px!important;background:#0b322c;border:0;margin:3px 0 2px}
+.forest-field .squad-unit-health>i{background:#9cc777}
+.forest-field .combat-enemy-member .squad-unit-health>i{background:#e49b74}
+.forest-field .squad-unit.is-selected:after{bottom:7px;left:10%;right:10%;height:12px;border:2px solid #ffe4a2;background:#ffda8140;box-shadow:0 0 8px #f9d28666}
+.forest-field .squad-unit.is-selected>.creature{filter:drop-shadow(0 0 3px #ffe49a) drop-shadow(0 8px 3px #0d3e3a44)}
+.forest-field.travel-world .squad-unit-info>small,.forest-field.travel-world .squad-unit-health,.forest-field.travel-world .squad-unit-info>em{display:none!important}
+.forest-field .forest-shared-health .squad-unit-info>small,.forest-field .forest-shared-health .squad-unit-health{display:none!important}
+.forest-field.travel-world .squad-unit-info{border-color:#cdd29475;background:#244a3bd9}
+.forest-field .squad-unit.is-down>.creature,.forest-field .squad-unit.is-down>.guardian-art{opacity:.15;filter:grayscale(1);transform:translateY(8px) scale(.9)}
+.forest-field .squad-unit.is-down .squad-unit-info{opacity:.6;background:#2b4941}
+.forest-field.is-walking .duel-party .squad-unit>.creature{animation:forest-walk .62s ease-in-out infinite;animation-delay:calc(var(--walker)*-.18s);animation-duration:calc(.62s / var(--forest-speed))}
+.forest-field .squad-unit.forest-style-melee>.creature,.forest-field .squad-unit.forest-style-melee>.guardian-art{animation:forest-pounce .72s cubic-bezier(.3,.05,.25,1) both;animation-delay:var(--cast-delay)}
+.forest-field .squad-unit.forest-style-ranged>.creature{animation:forest-cast .72s ease both;animation-delay:var(--cast-delay)}
+.forest-field .squad-unit.forest-style-heal>.creature,.forest-field .squad-unit.forest-style-support>.creature{animation:forest-bless .8s ease both;animation-delay:var(--cast-delay)}
+.forest-field .squad-unit.forest-style-guard>.creature{animation:forest-brace .7s ease both;animation-delay:var(--cast-delay)}
+.forest-field .squad-unit.forest-style-charge>.creature{animation:forest-cast .9s ease both;animation-delay:var(--cast-delay)}
+.forest-field .squad-unit.forest-style-evade>.creature{animation:forest-dodge .85s ease both;animation-delay:var(--cast-delay)}
+.forest-field .squad-unit.is-hurt:not(.is-down)>.creature{filter:drop-shadow(0 0 4px #ffe6c2) drop-shadow(0 8px 3px #0d3e3a44)}
+.forest-field .squad-unit.is-hurt:not(.is-down):not([data-forest-motion])>.creature{animation:forest-hit-recoil .45s ease-out both}
+.forest-field .squad-unit[data-forest-motion]>.creature{animation-duration:calc(.8s / var(--cast-speed,1));animation-delay:calc(var(--cast-delay,0ms) / var(--cast-speed,1))}
+.forest-field .duel-arena-fx{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:visible}
+.forest-field .duel-callout{top:22%;bottom:auto;left:10%;right:10%;font-size:12px;letter-spacing:.4px;background:#163a35ed;color:#ffdfa0;border:1px solid #d0ba75;border-radius:8px;padding:8px 12px;box-shadow:0 3px 7px #153b3b33;max-width:420px;margin-inline:auto;white-space:normal}
+.forest-field .duel-cast-roster{top:calc(22% + 45px);bottom:auto;left:5%;right:5%;justify-content:center;gap:5px;flex-wrap:wrap}
+.forest-field .duel-cast-roster>span{background:#e6edcceF;color:#274e3d;border:1px solid #adbd86;font-size:8px}
+.forest-field .duel-counter-callout{bottom:13%;font-size:10px;color:#f9e8b8;background:#583e2bdc;border-color:#cda777}
+.forest-field .duel-unit-number{font-size:23px;z-index:25;text-shadow:0 2px #153d38,1px 0 #153d38,-1px 0 #153d38;color:#ffe1b0}
+.forest-field .duel-unit-number.heal,.forest-field .duel-unit-number.revive{color:#bbefb2}
+.forest-field .duel-unit-number.ward{color:#fff1a4;font-size:13px}
+.forest-field .duel-unit-number.finisher,.forest-field .duel-unit-number.taunt,.forest-field .duel-unit-number.haste{font-size:10px;color:#ffe7a5}
+.forest-field .duel-projectile{z-index:21}
+.forest-slash{position:absolute;width:52px;height:35px;border-top:5px solid #fff3bd;border-bottom:3px solid var(--cast-color);border-radius:50%;transform:translate(-50%,-50%) rotate(-35deg);box-shadow:0 -3px 6px var(--cast-color);animation:forest-slash .45s ease-out both}
+.forest-warning-host{position:absolute;inset:0;pointer-events:none;z-index:14}
+.forest-warning{position:absolute;left:50%;top:23%;width:calc(100% - 30px);max-width:360px;transform:translateX(-50%);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 8px;padding:10px;box-sizing:border-box;border:1px solid #ffce80;border-radius:11px;background:#633d2bf0;box-shadow:0 4px 16px #0c2a2844;color:#ffe6b4;pointer-events:auto;z-index:2}
+.forest-warning strong{display:flex;align-items:center;gap:4px;font-size:11px;line-height:1.5}
+.forest-warning small{font-size:9px;line-height:1.6;color:#f5d6ab}
+.forest-warning button{grid-column:2;grid-row:1/3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:83px;min-height:52px;background:linear-gradient(#ffdf91,#dba459);border:1px solid #ffe9b5;border-radius:8px;color:#533e2c;font:600 10px/1.5 var(--font-body);box-shadow:0 3px #352c20}
+.forest-dock .forest-warning{position:static;left:auto;top:auto;transform:none;width:100%;max-width:none;padding:6px 8px;margin:0 0 8px;gap:2px 7px;box-shadow:none}
+.forest-dock .forest-warning button{min-height:44px;flex-direction:row;font-size:10px;gap:5px}
+.forest-dock:has(.forest-warning) .duel-energy{display:none}
+.forest-dock .forest-warning.is-evaded{background:#2c5b46;border-color:#c9d58e}
+.forest-dock .forest-warning.is-evaded button{visibility:hidden}
+.forest-danger-zone{position:absolute;left:5%;top:34%;width:40%;height:47%;border:2px solid #ffc17f;border-radius:50%;background:radial-gradient(ellipse,#f28b5944 0 45%,#f1915c88 70%,#ffd18699 95%);transform:rotate(-8deg);animation:forest-warning 1s ease-in-out infinite;box-shadow:inset 0 0 0 7px #fda27533}
+.forest-danger-zone i{position:absolute;bottom:15%;left:22%;height:65%;width:3px;background:#ffe2ac;transform:rotate(25deg);opacity:.7}
+.forest-danger-zone i:nth-child(2){left:48%;height:72%;transform:rotate(-10deg)}
+.forest-danger-zone i:nth-child(3){left:72%;height:48%;transform:rotate(-30deg)}
+.forest-evading .forest-danger-zone{animation:none;background:#c9934e33;border-style:dashed;opacity:.5}
+.forest-evading .forest-warning{top:20%;background:#2c5b46ef;border-color:#c9d58e}
+.forest-evading .forest-warning button{visibility:hidden}
+.forest-evading .duel-callout{display:none}
+.forest-root-burst{position:absolute;left:6%;top:34%;width:39%;height:47%;border:2px solid #fbd69a;border-radius:50%;background:#cf8f4c45;animation:forest-root-ring .65s ease-out both;transform:rotate(-8deg)}
+.forest-root-burst>i{position:absolute;bottom:20%;left:20%;width:13px;height:50%;border:3px solid #b9c483;border-bottom:0;border-radius:75% 0 0 0;background:linear-gradient(90deg,#5c7150,#9c9960);transform-origin:bottom;animation:forest-root-grow .6s ease-out both}
+.forest-root-burst>i:nth-child(2){left:45%;bottom:30%;height:65%;rotate:10deg}.forest-root-burst>i:nth-child(3){left:75%;bottom:15%;height:45%;rotate:-16deg}.forest-root-burst>i:nth-child(4){left:52%;bottom:8%;height:40%;rotate:-25deg}
+.forest-bag{position:absolute;right:12px;top:84px;z-index:12;max-width:240px;font-size:10px;color:#ffedbe}
+.forest-bag summary{min-height:36px;display:flex;align-items:center;justify-content:end;gap:6px;padding:6px 9px;box-sizing:border-box;list-style:none;border:1px solid #bdad73;border-radius:8px;background:#254b3deF;cursor:pointer}
+.forest-bag summary::-webkit-details-marker{display:none}
+.forest-bag summary span{font-size:8px}
+.forest-bag summary b{font-size:11px;font-weight:500;color:#fce0a0}
+.forest-bag>div{display:grid;gap:8px;padding:11px;border:1px solid #a6b486;border-top:0;border-radius:0 0 8px 8px;background:#214b3df5}
+.forest-bag>div>span{display:flex;align-items:center;gap:6px;font-size:10px;line-height:1.6}
+.forest-caption{position:absolute;left:12px;right:12px;bottom:8px;text-align:center;font-size:9px;line-height:1.6;color:#ecedc3;background:#164335d9;border:1px solid #aac6894d;border-radius:7px;padding:5px 7px;z-index:10;letter-spacing:0}
+.forest-loot-label{position:absolute;left:8%;right:8%;bottom:48px;padding:7px 9px;border:1px solid #cbb96c;border-radius:8px;background:#294b38ee;color:#ffedaf;text-align:center;font-size:10px;line-height:1.7;opacity:0;pointer-events:none;z-index:25;transition:opacity .2s}
+.forest-loot-label.visible{opacity:1}
+.forest-loot-particle{position:absolute;left:66%;top:65%;display:flex;align-items:center;gap:4px;padding:6px;border:1px solid #efd291;border-radius:50%;background:#ffe2a7;color:#704d29;z-index:26;pointer-events:none;animation:forest-loot 1.2s ease-in-out both;animation-delay:calc(var(--loot-i)*75ms);box-shadow:0 2px 7px #203e3a50}
+.forest-loot-particle b{font-size:11px;font-weight:700}
+.forest-dock{position:relative;z-index:30;min-width:0;padding:9px 12px 10px;border-top:2px solid #c3a064;background:linear-gradient(130deg,#305740,#1c4237);box-shadow:0 -4px 12px #133e3b33;color:#f5e9bd}
+.forest-dock .duel-energy{margin:0 0 5px;font-size:9px;color:#cbd6ac}
+.forest-dock .duel-energy>b{font-size:11px;color:#ffdfa1}
+.forest-dock .duel-skills{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.forest-dock .duel-skill{min-height:70px;padding:4px 4px 6px;display:grid;grid-template-columns:42px minmax(0,1fr);grid-template-rows:auto auto;gap:0 2px;align-content:center;border:1px solid #a6ab70;border-radius:10px;background:radial-gradient(ellipse at 20% 10%,#5d7e50,#2a4e3c 90%);color:#fae9b8;box-shadow:inset 0 1px #dbe5b53d,0 2px #153a31}
+.forest-dock .duel-skill>.creature{grid-row:1/3;width:45px;height:51px;align-self:center}
+.forest-dock .duel-skill strong{font-size:9px;line-height:1.5;min-height:0;margin:7px 0 0;font-weight:500;color:#fff0c5}
+.forest-dock .duel-skill>small{font-size:7px;line-height:1.5;margin:2px 0 0;color:#d1dab3}
+.forest-dock .duel-skill-energy{top:3px;right:4px;color:#f2d790;font-size:8px}
+.forest-dock .duel-skill .role-trait-tag,.forest-dock .duel-skill .skill-branch-tag{display:none}
+.forest-dock .duel-skill:disabled{opacity:.52}
+.forest-dock .duel-skill:enabled:hover{background:#496b49;border-color:#e4d295}
+.forest-dock .duel-combo-ready{border-color:#e8cf82;box-shadow:inset 0 0 0 1px #e8cf8280,0 2px #153a31}
+.forest-dock .duel-commands{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0 5px}
+.forest-dock .duel-commands>button{min-height:44px;display:flex;flex-direction:row;justify-content:center;gap:5px;padding:7px 3px;background:#244a3b;border:1px solid #9ca36d;border-radius:8px;color:#f3e3b4;box-shadow:inset 0 1px #bfd29640,0 2px #14392f}
+.forest-dock .duel-commands>button:last-child{background:linear-gradient(#e2c176,#b48b47);color:#2d432d;border-color:#ebd299}
+.forest-dock .duel-commands strong{font-size:10px;font-weight:500}
+.forest-dock .duel-commands>button:disabled{opacity:.45}
+.forest-dock .duel-commands>button:enabled:hover{background:#426444;border-color:#e4cc8d}
+.forest-dock .duel-feedback{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;margin:4px 0 0;padding:0;border:0;background:none;font-size:8px;line-height:1.7;min-height:0;color:#d5dfb8}
+.forest-dock .auto-action-note{margin:4px 0;padding:4px 7px;border:1px solid #8ca27355;background:#173d30;color:#e1dcae;font-size:9px;line-height:1.5;border-radius:6px}
+.forest-tactical{font-size:9px;color:#d7dcb6}
+.forest-tactical>summary{display:flex;align-items:center;gap:5px;min-height:44px;cursor:pointer;width:max-content;max-width:100%}
+.forest-tactical[open]{position:absolute;bottom:10px;left:10px;right:10px;z-index:60;max-height:min(55dvh,450px);overflow:auto;padding:10px;border:1px solid #bda46c;border-radius:10px;box-shadow:0 -4px 25px #0a282b88;background:#f4f0d8;color:#33523d}
+.forest-tactical[open]>summary{font-weight:600;min-height:36px;position:sticky;top:-10px;background:#f4f0d8;width:100%;z-index:2}
+.forest-tactical .duel-stances{margin-top:5px}
+.forest-tactical button{min-height:44px}
+.forest-dock .duel-timing-slot:has(.duel-timing){position:absolute;bottom:calc(100% + 8px);left:10px;right:10px;max-height:calc(100dvh - 180px);overflow:auto;border:1px solid #ddc080;border-radius:12px;background:#fff9e7;box-shadow:0 -4px 30px #0d343b80;padding:10px;z-index:70;color:#375340}
+.forest-dock .duel-preview{margin:0;border:0;border-radius:8px;padding:8px}
+.forest-dock .duel-timing{margin-top:8px;padding:10px}
+.forest-dock .duel-move-description{font-size:10px}
+.forest-route-panel .forest-event-title{display:flex;align-items:center;gap:9px;margin:0 0 9px}
+.forest-event-title>span{color:#edcf89}
+.forest-event-title small{font-size:7px;letter-spacing:1px;color:#b9cda3}
+.forest-event-title h3{font:600 17px/1.4 var(--font-display);margin:2px 0 0;color:#fff0c7}
+.forest-route-panel .travel-choice-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.forest-route-panel .travel-choice-list button{min-height:56px;gap:5px;padding:8px;border:1px solid #b4b57b;border-radius:8px;background:#f0e5bd;color:#31533c;box-shadow:0 2px #143c2e}
+.forest-route-panel .travel-choice-list button>span{min-width:0}
+.forest-route-panel .travel-choice-list strong{font-size:9px;line-height:1.6}
+.forest-route-panel .travel-choice-list small{font-size:8px;line-height:1.5;color:#536f46}
+.forest-route-panel .travel-choice-list button:disabled{opacity:.7}
+.forest-route-note{font-size:9px;line-height:1.6;color:#c9d6af;margin:8px 0 0}
+.forest-arriving .duel-opponent{animation:forest-encounter .6s ease both}
+.forest-result{position:absolute;inset:0;z-index:80;display:grid;place-items:center;padding:18px;overflow:auto;background:#173e39dc}
+.forest-result .duel-end{position:relative;box-sizing:border-box;width:100%;max-width:600px;min-height:0;max-height:100%;overflow:auto;padding:25px 17px;background:#f9f1d6;border:2px solid #d1ad67;border-radius:18px;color:#365541;box-shadow:0 15px 35px #0b292c77}
+.forest-result .duel-end h2{font-size:24px;line-height:1.4}
+.forest-result .duel-end>p{font-size:10px;line-height:1.7}
+.forest-result .duel-end-party{height:110px}
+.forest-result .duel-end-party>.creature{width:100px;height:100px}
+.forest-result .auto-end-report{font-size:10px}
+.forest-result .auto-end-report[open]{max-height:180px;overflow:auto}
+.forest-complete .forest-dock,.forest-complete .forest-head,.forest-complete .forest-auto{visibility:hidden}
+.forest-complete .forest-field{grid-row:1/-1;grid-column:1/-1}
+.forest-complete .forest-caption,.forest-complete .forest-warning-host{display:none}
+.forest-journey.auto-paused .forest-field *{animation-play-state:paused!important}
+.forest-journey.duel-quiet .forest-field *{animation:none!important;transition:none!important}
+.forest-journey.duel-quiet .forest-loot-particle{display:none}
+.forest-journey.duel-quiet .forest-slash{display:none}
+.forest-legacy-warning{display:grid;gap:8px;padding:12px;border:1px solid #b8804f;border-radius:10px;background:#fae9ce;color:#74452d;font-size:11px;line-height:1.6}.forest-legacy-warning button{min-height:44px;border:1px solid #aa844b;border-radius:8px;background:#e9c77e;color:#4c492d;padding:8px;font:inherit}
+@keyframes forest-walk{0%,100%{translate:0 0;rotate:-1deg}50%{translate:0 -6px;rotate:2deg}}
+@keyframes forest-ground{to{background-position:-130px 0}}
+@keyframes forest-far{to{translate:-12px 0}}
+@keyframes forest-near{to{translate:-28px 0}}
+@keyframes forest-pounce{0%,100%{translate:0 0;rotate:0deg}25%{translate:-5px 3px;rotate:-7deg}49%{translate:var(--dash-x) var(--dash-y);rotate:8deg;scale:1.05}62%{translate:var(--dash-x) var(--dash-y);rotate:-3deg}88%{translate:0 -4px}}
+@keyframes forest-cast{0%,100%{translate:0 0;scale:1}30%{translate:0 -10px;scale:1.06;filter:drop-shadow(0 0 9px var(--cast-color))}65%{translate:0 -5px;scale:.98}}
+@keyframes forest-bless{0%,100%{translate:0 0}35%,60%{translate:0 -13px;filter:drop-shadow(0 0 10px var(--cast-color))}}
+@keyframes forest-brace{0%,100%{scale:1}35%,65%{scale:1.12 .9;filter:drop-shadow(0 0 10px #dbcd87)}}
+@keyframes forest-dodge{0%,100%{translate:0 0;rotate:0deg}28%,65%{translate:-27px -42px;rotate:-9deg}75%{translate:-20px -28px;rotate:3deg}}
+@keyframes forest-hit-recoil{0%,100%{translate:0 0}25%{translate:var(--hurt-x) -3px;rotate:3deg}60%{translate:calc(var(--hurt-x)*.4) 1px;rotate:-1deg}}
+@keyframes forest-slash{0%{opacity:0;scale:.4;rotate:-25deg}35%{opacity:1;scale:1.2}100%{opacity:0;scale:1.6;rotate:35deg}}
+@keyframes forest-warning{50%{opacity:.55;scale:.95}}
+@keyframes forest-loot{0%{opacity:0;scale:.6;translate:0 8px}18%{opacity:1;scale:1.1;translate:0 -22px}44%{opacity:1;scale:1;translate:-8px -32px}100%{opacity:0;scale:.35;left:87%;top:12%;translate:0 0}}
+@keyframes forest-encounter{from{opacity:0;translate:25px 0}to{opacity:1;translate:0 0}}
+@keyframes forest-root-ring{0%{opacity:0;scale:.6}35%{opacity:1;scale:1}100%{opacity:0;scale:1.1}}
+@keyframes forest-root-grow{0%{scale:1 0}35%{scale:1 1.1}65%{scale:1 1}100%{scale:1 .6;opacity:0}}
+@media(min-width:900px){
+  .forest-layout{grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:70px 60px minmax(0,1fr)}
+  .forest-head{grid-column:1/-1;padding-inline:25px}
+  .forest-head h2{font-size:28px}
+  .forest-auto{grid-column:2;grid-row:2}
+  .forest-journey .auto-hud{padding-inline:10px;gap:5px;grid-template-columns:78px 44px minmax(65px,1fr) 44px 44px}
+  .duel-screen.forest-journey .forest-field{grid-column:1;grid-row:2/-1;border-right:2px solid #b99f66}
+  .forest-field-hud{top:20px;left:24px;right:24px}
+  .forest-field .duel-healths{max-width:650px;margin:auto;padding:12px 14px}
+  .forest-field .duel-healths span,.forest-field .duel-healths b{font-size:12px}
+  .forest-field .forest-progress{margin-top:12px;gap:12px}
+  .forest-field .forest-progress>span{width:28px;height:28px}
+  .forest-dock{grid-column:2;grid-row:3;align-self:stretch;border-top:0;padding:18px 14px;overflow:visible}
+  .forest-dock .duel-energy{font-size:11px;margin-bottom:12px}
+  .forest-dock .duel-skills{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .forest-dock .duel-skill{display:flex;min-height:125px;padding-top:12px}
+  .forest-dock .duel-skill>.creature{width:65px;height:65px}
+  .forest-dock .duel-skill strong{font-size:11px;margin:3px 0 0;min-height:32px}
+  .forest-dock .duel-skill>small{font-size:8px}
+  .forest-dock .duel-commands{grid-template-columns:repeat(2,minmax(0,1fr));margin:16px 0 10px;gap:9px}
+  .forest-dock .duel-commands>button{min-height:55px}
+  .forest-dock .duel-commands strong{font-size:12px}
+  .forest-dock .duel-feedback{font-size:10px;line-height:1.8;-webkit-line-clamp:5;margin-top:15px}
+  .forest-dock .auto-action-note{font-size:11px;line-height:1.8;margin:12px 0}
+  .forest-dock .duel-timing-slot:has(.duel-timing){bottom:14px;max-height:calc(100% - 24px)}
+  .forest-tactical>summary{min-height:44px;font-size:11px}
+  .forest-bag{top:108px;right:24px}
+  .forest-bag summary{min-height:44px;font-size:12px}
+  .forest-bag summary span{font-size:10px}
+  .forest-field .squad-unit-info>strong{font-size:11px}
+  .forest-field .squad-unit-info>small{font-size:9px}
+  .forest-caption{font-size:11px;bottom:18px;left:24px;right:24px;padding:9px}
+  .forest-field .duel-callout{font-size:17px}
+  .forest-loot-label{font-size:12px;bottom:80px}
+  .forest-route-panel .travel-choice-list{grid-template-columns:1fr}
+  .forest-route-panel .travel-choice-list button{min-height:76px;padding:12px}
+  .forest-route-panel .travel-choice-list strong{font-size:12px}
+  .forest-route-panel .travel-choice-list small{font-size:10px}
+  .forest-route-note{font-size:11px;line-height:1.9}
+}
+@media(max-width:350px){
+  .forest-layout{grid-template-rows:54px 60px minmax(180px,1fr) auto}
+  .forest-head{padding:5px 12px}
+  .forest-head h2{font-size:21px}
+  .forest-journey .auto-hud{grid-template-columns:72px 44px minmax(60px,1fr) 44px 44px;padding-inline:8px;gap:4px}
+  .forest-dock{padding:6px 8px 8px}
+  .forest-dock .duel-skill{grid-template-columns:35px minmax(0,1fr);min-height:63px;padding:3px}
+  .forest-dock .duel-skill>.creature{width:37px;height:45px}
+  .forest-dock .duel-skill strong{font-size:8px}
+  .forest-dock .duel-commands strong{font-size:9px}
+  .forest-dock .duel-commands>button{gap:3px}
+  .forest-field .squad-unit-info>strong{font-size:7px}
+  .forest-field .squad-unit-info>small{font-size:7px}
+  .forest-field .squad-unit .squad-unit-info{left:-5%;right:-5%;width:110%;padding:3px}
+  .forest-bag{top:80px;right:9px}
+  .forest-bag summary span{display:none}
+  .forest-warning{top:25%;padding:7px;gap:4px}
+  .forest-warning strong{font-size:9px}
+  .forest-warning small{font-size:8px}
+  .forest-warning button{min-width:74px;font-size:9px}
+  .forest-field .duel-callout{font-size:10px;padding:6px}
+  .forest-route-panel .travel-choice-list strong{font-size:8px}
+}
+@media(orientation:landscape) and (max-height:540px){
+  .forest-layout{grid-template-columns:minmax(0,1fr) 285px;grid-template-rows:49px 54px minmax(0,1fr)}
+  .forest-head{grid-column:1/-1;padding:4px 13px}
+  .forest-head h2{font-size:21px}
+  .forest-head small{font-size:7px}
+  .forest-auto{grid-column:2;grid-row:2}
+  .forest-journey .auto-hud{grid-template-columns:66px 44px minmax(55px,1fr) 44px 44px;padding:5px 6px;gap:4px}
+  .forest-journey .auto-hud button,.forest-journey .auto-hud select{height:44px;padding:4px;font-size:9px}
+  .duel-screen.forest-journey .forest-field{grid-column:1;grid-row:2/-1;border-right:1px solid #af9c64}
+  .forest-dock{grid-column:2;grid-row:3;padding:5px 8px;overflow:auto;overscroll-behavior:contain}
+  .forest-dock .duel-skill{grid-template-columns:30px minmax(0,1fr);min-height:61px;padding:2px}
+  .forest-dock .duel-skill>.creature{width:34px;height:43px}
+  .forest-dock .duel-skill strong{font-size:8px}
+  .forest-dock .duel-commands{margin-block:6px}
+  .forest-dock .duel-commands>button{min-height:44px;padding:4px 2px;gap:2px}
+  .forest-dock .duel-commands strong{font-size:8px}
+  .forest-field-hud{top:6px;left:9px;right:9px}
+  .forest-field .duel-healths{padding:5px 8px}
+  .forest-field .forest-progress{margin-top:4px}
+  .forest-field .forest-progress>span{height:18px;width:18px}
+  .forest-bag{top:65px;right:8px}
+  .forest-bag summary{min-height:30px;padding:4px 6px}
+  .forest-field .squad-unit .squad-unit-info{bottom:-3px;padding:2px 4px;max-width:110px;margin:auto}
+  .forest-field .squad-unit-info>strong,.forest-field .squad-unit-info>small{font-size:7px}
+  .forest-field .squad-unit-health{height:3px!important;margin-block:1px}
+  .forest-field .duel-callout{top:28%;font-size:10px;padding:5px}
+  .forest-field .duel-cast-roster{display:none}
+  .forest-caption{font-size:8px;bottom:4px;left:9px;right:9px;padding:3px}
+  .forest-warning{top:28%;max-width:310px;padding:7px}
+  .forest-warning strong{font-size:9px}
+  .forest-warning small{font-size:8px}
+  .forest-warning button{min-height:44px;min-width:75px;font-size:9px;gap:2px}
+  .forest-dock .duel-timing-slot:has(.duel-timing){position:fixed;bottom:10px;right:10px;left:auto;width:300px;max-height:calc(100dvh - 60px)}
+  .forest-tactical[open]{position:fixed;bottom:7px;left:auto;right:7px;width:270px;max-height:calc(100dvh - 70px)}
+  .forest-route-panel .travel-choice-list{grid-template-columns:1fr}
+  .forest-route-panel .travel-choice-list button{min-height:49px}
+  .forest-event-title h3{font-size:15px}
+  .forest-route-note{font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){.forest-journey .forest-field *{animation:none!important;transition:none!important}.forest-journey .forest-loot-particle,.forest-journey .forest-slash{display:none}}

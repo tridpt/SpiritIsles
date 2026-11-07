@@ -1,0 +1,32 @@
+/* Both formations remain readable while their shared health is resolved once. */
+.combat-enemy-team{position:relative;width:100%;height:100%;min-height:120px;isolation:isolate}
+.combat-enemy-member{position:absolute;width:61%;height:80%;bottom:5%;left:0;transform-origin:50% 85%;filter:drop-shadow(0 5px 3px #34513728)}
+.combat-enemy-member>.creature{width:100%;height:100%;overflow:visible}
+.combat-enemy-member.enemy-slot-0{left:0;bottom:0;z-index:3}.combat-enemy-member.enemy-slot-1{left:39%;bottom:20%;z-index:1;width:59%}.combat-enemy-member.enemy-slot-2{left:40%;bottom:-15%;z-index:4;width:59%}
+.combat-enemy-team[data-enemy-count="2"]>.enemy-slot-0{left:0;bottom:1%}.combat-enemy-team[data-enemy-count="2"]>.enemy-slot-1{left:40%;bottom:24%}
+.combat-enemy-team[data-enemy-count="1"]>.enemy-slot-0{left:10%;width:80%;height:100%;bottom:0}
+.enemy-member-name{display:none}
+.battle-enemy>.combat-enemy-team{height:185px}.ruins-combat-enemy>.combat-enemy-team{height:172px}.duel-opponent>.combat-enemy-team{height:100%;min-height:0}
+.duel-party{width:49%;left:0}.duel-friend{width:61%;height:92%}.duel-friend.friend-0{left:39%;bottom:0;z-index:3;transform:none}.duel-friend.friend-1{left:2%;bottom:29%;z-index:1;transform:scale(.94)}.duel-friend.friend-2{left:0;bottom:-24%;z-index:4;transform:scale(.94)}
+.duel-party:has(.duel-friend:only-child)>.duel-friend{left:18%;width:80%;bottom:0}
+.duel-friend.is-acting,.duel-friend.is-guarding,.duel-friend.is-preparing{animation-delay:var(--cast-delay,0s);filter:drop-shadow(0 0 7px var(--cast-color,#d7bf70))}
+.duel-projectile.duel-team-projectile{width:34px;height:34px;left:var(--shot-x);top:var(--shot-y);color:#fff9da;background:radial-gradient(circle,#fff8d0,var(--cast-color) 55%,transparent 72%);filter:drop-shadow(0 0 7px var(--cast-color));animation:duel-team-shot .38s ease-in both;border:0;border-radius:50%}
+.duel-projectile.duel-team-projectile.from-enemy{width:25px;height:25px;animation-duration:.24s}
+.duel-projectile.duel-team-aura{width:55px;height:64px;background:radial-gradient(ellipse,transparent 30%,var(--cast-color) 55%,transparent 70%);animation:duel-team-aura .55s ease-out both}
+.duel-arena[data-cast-count]>.duel-phase{visibility:hidden}.duel-arena[data-cast-count] .duel-callout{top:9px;left:8%;right:8%;width:max-content;max-width:84%;margin-inline:auto;z-index:6;padding:4px 10px;border:1px solid #b99958;border-radius:10px;background:#fff4cfef;color:#345b37;font-size:13px;line-height:1.6;text-shadow:none;letter-spacing:.5px}
+.duel-cast-roster{position:absolute;left:7px;right:7px;top:47px;display:flex;justify-content:center;gap:5px;flex-wrap:wrap;z-index:5}
+.duel-cast-roster>span{display:flex;align-items:center;gap:4px;padding:4px 7px;border:1px solid var(--cast-color);border-radius:9px;background:#fff9dced;color:#345439;font-size:8px;line-height:1.5;white-space:nowrap;box-shadow:0 2px 3px #314d3620}
+.duel-cast-roster .icon{color:var(--cast-color)}.duel-counter-callout{position:absolute;right:9px;bottom:29px;padding:5px 9px;background:#fff4dbeF;border:1px solid #bd996b;border-radius:8px;color:#785130;font-size:9px}
+.combat-enemy-member.is-attacking{animation:duel-enemy-lunge .28s var(--cast-delay,0s) both}.duel-opponent .combat-enemy-member.is-attacking{filter:drop-shadow(0 0 7px #b78053)}
+.duel-skill-guide{font-size:10px;line-height:1.7;margin:0 0 7px;color:#4b5e3b}.duel-aiming .duel-skill-guide{display:none}
+.combat-acting{animation-delay:var(--cast-delay,0s)!important;filter:drop-shadow(0 0 6px var(--cast-color,#d7bf70))}.combat-fx .fx-projectile{margin-top:var(--cast-offset,0px)}
+.replay-party[data-cast-count="2"],.replay-party[data-cast-count="3"]{left:3%;width:44%;height:73%;bottom:4%}
+.replay-party[data-cast-count="2"]>.creature,.replay-party[data-cast-count="3"]>.creature{position:absolute;width:67%;height:77%;left:29%;bottom:5%}
+.replay-party[data-cast-count="2"]>.creature:nth-child(2),.replay-party[data-cast-count="3"]>.creature:nth-child(2){left:0;bottom:27%;width:60%}.replay-party[data-cast-count="3"]>.creature:nth-child(3){left:0;bottom:-11%;width:60%}
+.replay-caption{right:12px;font-size:8px;white-space:normal;line-height:1.6}.replay-enemy:has(.combat-enemy-team){width:43%;height:72%;right:3%;bottom:9%}.replay-enemy .combat-enemy-team{min-height:0}
+@keyframes duel-team-shot{0%{left:var(--shot-x);top:var(--shot-y);opacity:0;scale:.55}20%{opacity:1}90%{opacity:1}100%{left:var(--shot-end-x);top:var(--shot-end-y);opacity:0;scale:1.15}}
+@keyframes duel-team-aura{0%{scale:.5;opacity:0}25%,65%{opacity:1}100%{scale:1.5;opacity:0}}
+@media(max-width:760px){.duel-friend.friend-1{bottom:25%}.duel-friend.friend-2{bottom:-14%}.duel-cast-roster{top:41px;gap:3px}.duel-cast-roster>span{font-size:7px;padding:3px 5px}.duel-callout{max-width:94%;text-align:center;white-space:normal}.duel-arena[data-cast-count] .duel-callout{font-size:10px;padding:3px 8px}.duel-skill-guide{font-size:8px}.battle-enemy>.combat-enemy-team{height:143px}.ruins-combat-enemy>.combat-enemy-team{height:137px}.duel-counter-callout{font-size:7px}.duel-arena .combat-enemy-member.enemy-slot-2{bottom:-7%}}
+@media(max-height:740px) and (max-width:760px){.duel-cast-roster{top:36px}.duel-cast-roster>span{font-size:6px;padding:2px 4px}.duel-cast-roster .icon{width:10px;height:10px}.duel-arena[data-cast-count] .duel-callout{top:5px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){.combat-enemy-member.is-attacking,.duel-team-projectile{animation:none!important}.duel-team-projectile{display:none}}
+.duel-quiet .duel-team-projectile{display:none}.duel-quiet .combat-enemy-member.is-attacking{animation:none!important}

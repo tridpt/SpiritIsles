@@ -1,0 +1,48 @@
+.volcano-journey .forest-layout{background:#362d48}
+.volcano-journey .forest-head{background:linear-gradient(110deg,#403148,#724650);border-color:#e8b782}
+.volcano-journey .forest-head small{color:#f5d3b0}
+.volcano-journey .forest-exit{background:#654555;border-color:#eac299}
+.volcano-journey .forest-auto,.volcano-journey .auto-hud{background:linear-gradient(#684657,#433347)}
+.volcano-journey .auto-hud button,.volcano-journey .auto-hud select{background:#463248;border-color:#c5988b}
+.volcano-journey .forest-field .duel-healths,.volcano-journey .forest-field .squad-unit .squad-unit-info{background:#342b45f5;border-color:#dbb9a2}
+.volcano-journey .forest-dock{background:linear-gradient(125deg,#463247,#6c454e);border-color:#edc293}
+.volcano-journey .forest-dock .duel-skills>button,.volcano-journey .forest-dock .duel-commands>button{background:linear-gradient(#795162,#4e354b);border-color:#c99e91;color:#fff1d4}
+.volcano-journey .forest-dock .duel-commands>button:last-child{background:linear-gradient(#ffd59b,#df9e71);color:#493144;border-color:#ffe9bc}
+.volcano-journey .forest-route-note,.volcano-journey .forest-dock .duel-feedback{color:#f6dec8}
+.volcano-journey .forest-route-panel .travel-choice-list>button{background:linear-gradient(110deg,#695263,#40384e);border-color:#e6c5b3;color:#fff2d2}
+.volcano-journey .forest-route-panel .travel-choice-list strong{font-size:10px;line-height:1.6;color:#fff2d2}
+.volcano-journey .forest-route-panel .travel-choice-list small{font-size:9px;line-height:1.6;color:#f4dccd}
+.volcano-journey .forest-route-panel .travel-choice-list>button:disabled{opacity:1}
+.volcano-journey .forest-route-panel .travel-choice-list>button:last-child{background:linear-gradient(110deg,#98534c,#633846);border-color:#ffd09e}
+.volcano-journey .forest-field .forest-caption,.volcano-journey .forest-bag summary,.volcano-journey .forest-bag>div{background:#372b44f2;border-color:#d7ae92;color:#fff0cd}
+.volcano-journey .forest-event-title small{color:#f4ceb0}
+.volcano-journey .forest-road-marks{opacity:.2;background:repeating-linear-gradient(165deg,transparent 0 76px,#ffdaac77 77px 79px,transparent 80px 130px)}
+.volcano-lava-river{animation:volcano-glow 3s ease-in-out infinite alternate}
+.volcano-embers circle{animation:volcano-ember 4s ease-in-out infinite;animation-delay:calc(var(--ember-i)*-.37s);transform-box:fill-box;transform-origin:center}
+.volcano-journey .forest-danger-zone{left:5%;top:34%;width:48%;height:40%;border-color:#ffd59a;background:repeating-linear-gradient(135deg,#df694d88 0 12px,#ffda9277 13px 16px,#b5404b66 17px 30px);box-shadow:inset 0 0 0 6px #ffb97a55}
+.volcano-safe-ground{position:absolute;left:5%;top:76%;width:46%;height:12%;display:grid;place-items:center;border:2px dashed #bce6c9;border-radius:50%;background:#315451d9;color:#f0ffdf;font-size:9px;letter-spacing:.5px}
+.volcano-journey .forest-warning{background:#683f4bf8;border-color:#ffcb8d}
+.volcano-journey .forest-field.volcano-opening .volcano-dragon-core{fill:#fff3b6;stroke:#fff7d0;filter:drop-shadow(0 0 7px #ffb66e)}
+.volcano-journey .forest-field.volcano-unarmored .volcano-dragon-plates{opacity:.15}
+.volcano-journey .forest-field.volcano-opening .forest-boss-unit{outline:2px solid #ffd691;outline-offset:4px;border-radius:45%}
+.volcano-armor{position:absolute;left:14px;top:82px;z-index:11;max-width:48%;padding:6px 9px;border:1px solid #dfb395;border-radius:8px;background:#352c44f5;color:#fff1cb;font-size:9px;line-height:1.5;pointer-events:none}
+.volcano-armor b{color:#ffce8e}.volcano-armor>div{height:4px;margin-top:4px;background:#211e34}.volcano-armor i{display:block;height:100%;background:linear-gradient(90deg,#bc8b7d,#ffce9d)}
+.volcano-journey .forest-style-evade{animation:volcano-step .85s ease both!important;animation-delay:var(--cast-delay)!important}
+.volcano-journey .forest-evading .volcano-safe-ground{border-style:solid;background:#40665aeF;box-shadow:0 0 12px #bce6c955}
+.volcano-burst{position:absolute;left:4%;top:34%;width:49%;height:40%;border:3px solid #ffcb8e;border-radius:50%;background:#e76b4d55;animation:volcano-ring .9s ease-out both}
+.volcano-burst i{position:absolute;bottom:20%;left:20%;width:12%;height:75%;background:linear-gradient(#fff0bc,#ffc06b,#eb6349);border-radius:70% 20% 30% 30%;transform-origin:bottom;animation:volcano-plume .75s ease-out both}
+.volcano-burst i:nth-child(2){left:44%;height:90%;animation-delay:.08s}.volcano-burst i:nth-child(3){left:72%;height:65%;animation-delay:.14s}
+.volcano-burst[data-kind="fire-breath"]{left:3%;top:35%;width:82%;height:40%;border:0;border-radius:70% 30% 40% 40%;background:linear-gradient(270deg,#fff1b7 4%,#ffc174bb 24%,#ed6a4cbb 65%,transparent);animation:volcano-breath .9s ease-out both}
+.volcano-burst[data-kind="fire-breath"] i{display:none}
+.volcano-burst[data-kind="stone-slam"]{border-width:6px;background:#f7bf8744}
+.volcano-reward-entry{background:linear-gradient(120deg,#f5dfd4,#fff1d5);border-color:#cf9f8e;color:#684253}
+.volcano-reward-entry>span{background:#955966;color:#ffe8b9}
+@keyframes volcano-glow{to{opacity:.73}}
+@keyframes volcano-ember{50%{transform:translate(7px,-20px);opacity:.25}}
+@keyframes volcano-step{25%,85%{transform:translate(-50%,-50%) translate(var(--safe-x),var(--safe-y))}100%{transform:translate(-50%,-50%)}}
+@keyframes volcano-ring{from{opacity:.4;scale:.7}to{opacity:0;scale:1.2}}
+@keyframes volcano-plume{from{transform:scaleY(.1)}60%{transform:scaleY(1.1)}to{transform:scaleY(.4);opacity:0}}
+@keyframes volcano-breath{from{transform:scaleX(.1);transform-origin:right;opacity:.3}65%{opacity:1}to{transform:scaleX(1);opacity:0}}
+@media(orientation:landscape) and (max-height:540px){.volcano-armor{top:65px;left:9px;font-size:8px;padding:4px 7px}}
+@media(prefers-reduced-motion:reduce){.volcano-journey *,.volcano-journey .forest-style-evade,.volcano-journey *::before,.volcano-journey *::after{animation:none!important;transition:none!important}}
+body.reduced-motion .volcano-journey *,body.reduced-motion .volcano-journey *::before,body.reduced-motion .volcano-journey *::after{animation:none!important;transition:none!important}

@@ -1,0 +1,16 @@
+import fs from 'node:fs';
+import crypto from 'node:crypto';
+import assert from 'node:assert/strict';
+const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^\uFEFF/,''));
+const hash=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
+const {version}=read('package.json'),bundle=read(`dist/BUNDLE-CHECK-${version}.json`),source=read(`dist/SOURCE-CHECK-${version}.json`),visual=read(`dist/AUTO-TACTICS-VISUAL-${version}.json`),android=read(`dist/ANDROID-AUTO-TACTICS-${version}.json`);
+const reports=[`BROWSER-${version}.json`,...(fs.existsSync(`dist/BROWSER-RECHECK-${version}.json`)?[`BROWSER-RECHECK-${version}.json`]:[])],cases=new Map();
+function visit(s,report){for(const spec of s.specs||[])for(const t of spec.tests||[]){const key=`${spec.file}:${spec.title}`,prior=cases.get(key);cases.set(key,{file:spec.file,title:spec.title,status:t.status,report,recovered:!!prior&&(prior.status!=='expected'||prior.recovered)});}for(const child of s.suites||[])visit(child,report);}
+for(const name of reports)visit(read(`dist/${name}`),name);
+const tests=[...cases.values()],failed=tests.filter(t=>t.status!=='expected').length,passed=tests.length-failed,rerunRecovered=tests.filter(t=>t.recovered).length;assert.equal(tests.length,186);assert.equal(failed,0);
+const browser={version,uniqueTests:tests.length,passed,failed,rerunRecovered,reports,tests};fs.writeFileSync(`dist/BROWSER-RESULTS-${version}.json`,JSON.stringify(browser,null,2)+'\n');
+const unit=fs.readFileSync(`dist/ENGINE-${version}.tap`,'utf8'),value=k=>Number(unit.match(new RegExp(`^# ${k} (\\d+)\r?$`,'m'))?.[1]);assert.equal(value('tests'),348);assert.equal(value('pass'),348);assert.equal(value('fail'),0);
+assert.equal(visual.views.length,40);assert.deepEqual(visual.errors,[]);assert.deepEqual(android.consoleErrors,[]);assert.equal(bundle.sha256,hash(`dist/DaoLinhThu-${version}.apk`));assert.equal(android.installedApkSha256,bundle.sha256);assert.equal(source.sha256,hash(`dist/source-${version}.zip`));assert.equal(bundle.lintErrors,0);assert.equal(bundle.sameSignerAsPrevious,true);
+const previous=read('dist/BUILD-INFO-1.19.0.json');assert.equal(hash('dist/DaoLinhThu-1.19.0.apk'),previous.sha256);assert.equal(hash('dist/source-1.19.0.zip'),previous.sourceSha256);
+const result={version,versionCode:27,apk:`dist/DaoLinhThu-${version}.apk`,bytes:bundle.bytes,sha256:bundle.sha256,source:`dist/source-${version}.zip`,sourceFiles:source.filesVerified,sourceBytes:source.bytes,sourceSha256:source.sha256,unit:{tests:348,passed:348,failed:0,newTacticsTests:22},browser:{tests:186,passed,failed,rerunRecovered,reports,newTacticsCases:14},visual:{frames:40,errors:visual.errors},android,bundledWebFiles:bundle.bundledFilesVerified,autoTacticsPrecached:bundle.autoTacticsPrecached,signatureV2Verified:bundle.signatureV2Verified,sameSignerAsPrevious:bundle.sameSignerAsPrevious,previousReleasePreserved:true,lint:{errors:bundle.lintErrors,warnings:bundle.lintWarnings},completedAt:new Date().toISOString()};
+fs.writeFileSync(`dist/BUILD-INFO-${version}.json`,JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify({version,versionCode:27,sha256:bundle.sha256,sourceSha256:source.sha256,engine:348,browser:186,rerunRecovered,visual:40,android:android.androidApi},null,2));

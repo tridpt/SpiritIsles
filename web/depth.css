@@ -1,0 +1,34 @@
+/* A clay-like volume treatment with a fixed light source at the upper left. */
+.creature{isolation:isolate}
+.pet-volume-rear,.pet-volume-torso,.pet-volume-head,.pet-volume-face,.pet-volume-ornaments{transform-box:view-box;transform-origin:90px 94px;transition:transform .28s ease-out}
+.creature-stage{--look-x:0;--look-y:0;perspective:700px;touch-action:pan-y;cursor:grab;overflow:hidden;box-shadow:inset 0 1px 0 #fffdf5,inset 0 -14px 28px #556b4510;background-image:radial-gradient(ellipse at 35% 10%,#fffcedc9,transparent 68%)}
+.creature-stage:active{cursor:grabbing}
+.creature-stage:focus-visible{outline:2px solid #8aa98b;outline-offset:3px}
+.creature-stage>.creature{position:relative;z-index:1;transform:rotateX(calc(var(--look-y) * -6deg)) rotateY(calc(var(--look-x) * 9deg));transition:transform .25s ease-out;animation:none;transform-origin:50% 75%}
+.creature-stage .pet-volume-rear{transform:translate(calc(var(--look-x) * -1.8px),calc(var(--look-y) * -1px))}
+.creature-stage .pet-volume-torso{transform:translate(calc(var(--look-x) * .6px),calc(var(--look-y) * .4px))}
+.creature-stage .pet-volume-head{transform:translate(calc(var(--look-x) * 1.5px),calc(var(--look-y) * .8px))}
+.creature-stage .pet-volume-face{transform:translate(calc(var(--look-x) * 2.2px),calc(var(--look-y) * 1.1px))}
+.creature-stage .pet-volume-ornaments{transform:translate(calc(var(--look-x) * 1.3px),calc(var(--look-y) * .65px))}
+.creature-stage::before{content:'';position:absolute;z-index:0;left:50%;bottom:24px;width:160px;height:27px;border-radius:50%;transform:translateX(-50%);background:radial-gradient(ellipse at 37% 22%,#fffbed 0%,#e0e7c9 52%,#a6b391 92%);border:1px solid #d3dcc2;box-shadow:0 5px 0 #b7c3a2,0 8px 0 #81977640,0 12px 13px #4963441b,inset 0 2px 1px #fffef4}
+.pet-detail-hero.creature-stage{height:220px}
+.pet-detail-hero.creature-stage>.creature{height:194px;width:220px;margin-top:-20px}
+.unowned-preview.creature-stage{min-height:246px;padding-bottom:18px}
+.unowned-preview.creature-stage::before{bottom:31px;width:185px;height:29px}
+.creature-view-hint{position:absolute;bottom:9px;left:0;right:0;text-align:center;color:#91a083;font-size:8px;letter-spacing:.2px;pointer-events:none}
+.creature-stage>.detail-stars{bottom:6px;z-index:2}
+.pet-detail-hero .creature-view-hint{top:12px;bottom:auto;left:auto;right:12px;font-size:7px}
+.creature-stage>.rarity,.creature-stage>.element{z-index:2}
+.pet-card{box-shadow:0 2px 0 #d6dfc86b,0 6px 15px #455e3910}
+.pet-visual{background-image:radial-gradient(ellipse at 28% 10%,#fffdf1c9,transparent 70%);box-shadow:inset 0 1px 0 #ffffff9c,inset 0 -8px 18px #55724708}
+.legend-card{box-shadow:0 3px 0 #d9cead80,0 7px 12px #6c5c2b0a}
+.hatch-result{box-shadow:inset 0 1px 0 #fffdf4,0 3px 0 #b2c49b36}
+.egg-pedestal{background:radial-gradient(ellipse at 35% 15%,#f6f3d9,#cad5ac);box-shadow:0 5px 0 #a7b68c,0 8px 0 #a7b68c40,0 12px 17px #49614224,inset 0 1px 0 #fffbed}
+.star-stage .egg-pedestal{background:radial-gradient(ellipse at 35% 15%,#f7e9df,#c9b8d0);box-shadow:0 5px 0 #ac98b5,0 8px 0 #ac98b540,0 12px 17px #69507424}
+.island-panel{box-shadow:0 4px 0 #c5d3bd69,0 12px 26px #45634210}
+.island-scene{box-shadow:inset 0 -16px 32px #557b6010}
+.reduced-motion .creature-stage>.creature,.reduced-motion .creature-stage .pet-volume-rear,.reduced-motion .creature-stage .pet-volume-torso,.reduced-motion .creature-stage .pet-volume-head,.reduced-motion .creature-stage .pet-volume-face,.reduced-motion .creature-stage .pet-volume-ornaments{transform:none!important}
+.reduced-motion .creature-stage{cursor:default}
+.reduced-motion .creature-view-hint{display:none}
+@media(prefers-reduced-motion:reduce){.creature-stage>.creature,.creature-stage .pet-volume-rear,.creature-stage .pet-volume-torso,.creature-stage .pet-volume-head,.creature-stage .pet-volume-face,.creature-stage .pet-volume-ornaments{transform:none!important}.creature-stage{cursor:default}.creature-view-hint{display:none}}
+@media(max-width:400px){.pet-detail-hero.creature-stage{height:205px}.pet-detail-hero.creature-stage>.creature{height:183px;width:207px}.unowned-preview.creature-stage{min-height:228px}.creature-stage::before{width:147px}.unowned-preview.creature-stage::before{width:167px}}

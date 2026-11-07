@@ -1,0 +1,116 @@
+/* Fantasy art direction: cool scenery, warm readable controls, crisp local light. */
+:root{--world-forest:#174b49;--world-deep:#123e41;--world-brass:#be9b57;--world-cream:#fff0c8}
+body{background:#b8d6c0}
+.game-shell{background:radial-gradient(ellipse at 30% 0,#faf0cb80,transparent 60%),linear-gradient(#c8ddc8,#e9e7ce)}
+.game-hud.topbar{background:linear-gradient(115deg,#1e5b50,#133f43 62%,#20574d);border-bottom-color:#c2a46a;box-shadow:0 3px 0 #163e3b66,inset 0 1px #cce6bc40}
+.game-hud .wallet-item{border-color:#71917a;background:linear-gradient(#133d3e,#1b4d45);box-shadow:inset 0 2px 4px #0a2d35a0,0 1px #8ba080}
+.player-medal{border-color:#f2d28e;background:radial-gradient(circle at 30% 20%,#a8d49c,#4e9775 55%,#20645f)}
+.game-hud .top-settings{background:linear-gradient(#548775,#285b53);border-color:#9aa678}
+.hud-wordmark{color:#ffe2a0;text-shadow:0 2px #102f33}
+.game-shell[data-screen=island]{background:#4caa9d}
+.game-lobby{background:radial-gradient(ellipse at 46% 8%,#fff0bfbd,transparent 48%),linear-gradient(180deg,#cae5c8 0%,#86cbbb 38%,#50a99e 72%,#2d7e83 100%)}
+.game-lobby:after{background:radial-gradient(ellipse at 50% 48%,transparent 35%,#125c641c 100%)}
+.world-sun{background:radial-gradient(circle,#fff1bc6b,transparent 68%)}
+.world-mist{background:transparent;filter:none}
+.game-lobby .island-art{filter:drop-shadow(0 18px 12px #174d562b)}
+.game-lobby .island-art>rect:last-of-type{opacity:1}
+.lobby-location h1{color:#1b5147;text-shadow:0 2px #e5f1cb}
+.location-kicker,.location-meta{color:#346957}
+.game-lobby .map-hotspot{background:linear-gradient(#fff6d5,#edda9f);color:#36593c;border-color:#ab945c;border-top-color:#fff9da;box-shadow:0 3px #6b744d70,0 5px 9px #28534325}
+.game-lobby .map-hotspot:after{background:#edda9f;border-color:#ab945c}
+.game-lobby .island-pet span{background:#1b5149f0;border-color:#8aa98e;color:#fff2c7;text-shadow:none}
+.game-lobby .island-pet .creature{filter:drop-shadow(0 4px 2px #204e4c50)}
+.game-lobby .firefly{background:#fce9a05c;color:#fff2be;border-color:#fff1b4;box-shadow:0 0 0 5px #fff0ad14,0 0 22px #fff0ad70}
+.lobby-activity>strong,.island-shortcut>strong{color:#193f37;text-shadow:0 1px #cce8c2}
+.lobby-activity>small{background:#f5edc9e8;color:#3f624b;border-color:#bfd2a3}
+.shortcut-token,.activity-token{box-shadow:inset 0 0 0 3px #ffefd159,0 4px #385f5180,0 7px 12px #18493b2b}
+.daily-treasure{border-color:#b28e4e;background:linear-gradient(#fff2be,#e4bd73);color:#6b512d;box-shadow:0 4px #426e5460,inset 0 1px #fff8d9}
+.lobby-quest{border-color:#bda469;background:linear-gradient(120deg,#fff5d2,#e7ddb0);box-shadow:0 4px #255d5266,inset 0 1px #fffce3}
+.lobby-harvest{background:linear-gradient(#286f5a,#194f48);border-color:#c7bc83;box-shadow:0 4px #14434188}
+.lobby-tip{color:#fff1c9;background:#215e53c9;text-shadow:none;border-radius:20px;padding:5px 12px;width:max-content;max-width:82%;left:50%;right:auto;bottom:180px;transform:translateX(-50%);justify-content:center}
+.island-edit-entry{background:linear-gradient(#fff0bd,#ddc483);color:#445e3d;border-color:#ad965a;box-shadow:0 4px #2d635270}
+.journey-launch{background:linear-gradient(140deg,#ffe3a0,#e5b954);border-color:#a7803f;border-top-color:#fff2c4;box-shadow:0 5px #77683f99,inset 0 0 0 3px #fff0bb70}
+.journey-launch strong{color:#6c4f23;text-shadow:0 1px #fff0bc}
+.structure-material{stroke-linejoin:round}
+.island-water-rings{animation:world-water 6s ease-in-out infinite}
+.island-light-motes{animation:world-glimmer 4.8s ease-in-out infinite}
+
+/* Rich material shading keeps each species' own face, silhouette and palette. */
+.pet-volume-rear,.pet-volume-torso,.pet-volume-head{stroke:#23434d;stroke-width:.65;stroke-opacity:.22;stroke-linejoin:round;paint-order:stroke fill}
+.pet-volume-head .pet-gloss{stroke:none}
+.game-page .pet-card{border-color:#809d79;box-shadow:0 4px #517b6259,0 9px 15px #264e3f12}
+.game-page .pet-visual{background:radial-gradient(ellipse at 35% 20%,#e5e9b8,#b0cb98 60%,#6d9c7f);box-shadow:inset 0 1px #fff9db,inset 0 -12px 20px #315f5f21}
+.game-page .tier-R .pet-visual{background:radial-gradient(ellipse at 35% 18%,#e0efda,#8ec6c0 58%,#457f93)}
+.game-page .tier-SR .pet-visual{background:radial-gradient(ellipse at 35% 20%,#acaccc,#687b9b 60%,#344c71)}
+.game-page .tier-SSR .pet-visual{background:radial-gradient(ellipse at 50% 22%,#637d83,#2c535c 60%,#173741);box-shadow:inset 0 1px #ead7a3,inset 0 0 0 3px #e2bf6b26}
+.pet-visual:after{border-color:#faf1c753;border-radius:11px}
+.game-page .pet-visual>.creature{filter:drop-shadow(0 4px 2px #1d43542e)}
+.game-page .undiscovered .pet-visual>.creature{opacity:1;filter:drop-shadow(0 4px 2px #1d43542e)}
+.pet-stars{color:#f4c972;text-shadow:0 1px #73572c}
+.tier-N .pet-stars,.tier-R .pet-stars{color:#947139;text-shadow:0 1px #e6efc2}
+.pet-level{color:#375f50;font-weight:600}
+.tier-SR .pet-level,.tier-SSR .pet-level{color:#fff0c5;text-shadow:0 1px #294558}
+.rarity{background:#f2f2d7;color:#45664d;border-color:#8ca37b;box-shadow:0 2px #234e3526}
+.rarity-R{background:#daf1e9;color:#24677b;border-color:#5fa6b1}
+.rarity-SR{background:#eee1f7;color:#654d91;border-color:#ac8ac4}
+.rarity-SSR{background:linear-gradient(#fff0b8,#dfb665);color:#695023;border-color:#d3ad61;box-shadow:0 2px #68532c66}
+.game-page .legend-card{background:radial-gradient(ellipse at 50% 25%,#637e81,#2e535b 60%,#1d4149);border-color:#c0a260;border-top-color:#ffe2a3;color:#fff1c9;box-shadow:0 4px #5a653e55,inset 0 0 0 3px #f1d19619}
+.legend-card-caption{color:#d5ceab}
+.legend-card>.element{background:#fff2cd;color:var(--element);border:1px solid #d7bc7e}
+.creature-stage{background:radial-gradient(ellipse at 35% 12%,#f9f0d0,#c4d3a1 60%,#8eae8a);box-shadow:inset 0 1px #fff9e1,inset 0 -16px 25px #2f65532b}
+.creature-stage:has(>.creature-SR){background:radial-gradient(ellipse at 38% 24%,#c0b5d2,#8596b0 64%,#536c85)}
+.creature-stage:has(>.creature-SSR){background:radial-gradient(ellipse at 50% 25%,#6d8889,#325b65 64%,#1b414e)}
+.creature-stage::before{background:radial-gradient(ellipse at 35% 20%,#fff4cf,#c8d1a6 60%,#80a089);border-color:#ddcd99;box-shadow:0 5px #5b8271,0 7px #385f5966,0 12px 12px #183f3f40,inset 0 2px #fff4cd}
+.creature-stage:has(>.creature-SSR)::before{background:radial-gradient(ellipse at 35% 20%,#f7e4b4,#b7aa76 60%,#6b826e);border-color:#edce8d;box-shadow:0 5px #436c68,0 7px #294d5255,0 11px 14px #11384460,inset 0 2px #fff0bf}
+.creature-stage:has(>.creature-SSR) .creature-view-hint{color:#e1dbbb}
+.game-dialog .modal-body>p{color:#53684e}
+
+/* The hatch sanctuary has a lit pedestal and a distant forest silhouette. */
+.game-page .hatch-stage{isolation:isolate;background:radial-gradient(ellipse at 50% 52%,#e9efc1 0,#8cbe9b 48%,#2c7774 100%);border-bottom-color:#bca46e}
+.hatch-stage::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#194e5900,#1d62638c);clip-path:polygon(0 47%,7% 35%,10% 54%,17% 31%,24% 60%,29% 42%,34% 68%,68% 68%,73% 38%,79% 53%,86% 27%,91% 45%,97% 34%,100% 50%,100% 100%,0 100%);z-index:-1;pointer-events:none}
+.hatch-stage::after{content:'';position:absolute;inset:12px;background:radial-gradient(circle at 16% 31%,#fff0b8 0 1px,transparent 2px),radial-gradient(circle at 77% 24%,#fff0b8 0 2px,transparent 3px),radial-gradient(circle at 88% 64%,#fff0b8 0 1.5px,transparent 3px),radial-gradient(circle at 29% 72%,#fff0b8 0 1.5px,transparent 3px);pointer-events:none;animation:world-glimmer 4s ease-in-out infinite}
+.game-page .star-stage{background:radial-gradient(ellipse at 50% 58%,#c4b6c5,#65748f 53%,#253d5e)}
+.star-stage::before{background:linear-gradient(#53658500,#1e3c5b)}
+.hatch-caption{color:#fff2ca!important;background:#245c52d9;border:1px solid #b8b48970;padding:6px 10px;border-radius:20px}
+.egg-pedestal{border:1px solid #d6d49c;background:radial-gradient(ellipse at 35% 20%,#fff1c7,#a7c79b);box-shadow:0 5px #527e68,0 8px #527e6866,0 13px 17px #23515059,inset 0 2px #fff4cf}
+.star-stage .egg-pedestal{background:radial-gradient(ellipse at 35% 20%,#f6e4bc,#a69ab6);box-shadow:0 5px #645b86,0 8px #645b8666,0 13px 17px #223e6059}
+
+/* Scenery is purely decorative and cannot intercept targets or touch input. */
+.scenery-art{display:block;overflow:hidden;pointer-events:none;user-select:none}
+.duel-scenery,.travel-scenery{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
+.biome-picture .biome-art{width:100%;height:100%;object-fit:cover}
+.scenery-motes{animation:world-glimmer 5s ease-in-out infinite}
+.duel-screen{background:#f4efde;border:2px solid #a9ac7e;box-shadow:0 24px 100px #123c4877,inset 0 0 0 3px #ffefc860}
+.duel-topbar{background:linear-gradient(110deg,#245e52,#16464b);border-bottom:2px solid #bfa367;color:#fff0cc}
+.duel-topbar h2{font-weight:700;color:#fff0cc;text-shadow:0 2px #133c3a}
+.duel-topbar>div>span{color:#c2d3ac}
+.duel-turn{background:#0f3d3d;border:1px solid #889873;color:#f9e4b7}
+.duel-topbar .duel-close{background:#356a5a;color:#fff0c8;border-color:#a7ae7d;box-shadow:0 2px #123f3b}
+.auto-hud{background:linear-gradient(#fff5d6,#ede4bf);border-bottom-color:#c8bb8f}
+.duel-arena{background:#4a8773;border:2px solid #8e9a67;box-shadow:inset 0 0 0 2px #f4e3af60,0 3px #59705433}
+.duel-arena .duel-phase{background:#174a48ed;border:1px solid #bac18a;color:#fff0ca;padding:4px 8px;border-radius:7px;z-index:3}
+.duel-arena .duel-scene-caption{color:#fff0c8;background:#174b46eb;left:8px;right:8px;bottom:6px;width:fit-content;max-width:calc(100% - 16px);margin:auto;padding:3px 7px;border-radius:5px;font-size:8px;line-height:1.6;text-shadow:none}
+.duel-arena .creature{filter:drop-shadow(0 1px 0 #f9f1c28c) drop-shadow(0 4px 2px #183e4c45)}
+.duel-healths>div>div{box-shadow:inset 0 1px 2px #1f51462e,0 1px #fff8de}
+.duel-healths i{background:linear-gradient(90deg,#287e65,#8bcf87);box-shadow:inset 0 1px #d5f1ae}
+.duel-enemy-hp i{background:linear-gradient(90deg,#b36658,#eab17c);box-shadow:inset 0 1px #ffe0a3}
+.duel-skill,.duel-commands>button{border-color:#b5b58a;background:linear-gradient(#fff6d9,#e8e4c6);box-shadow:0 3px #8e9d7050,inset 0 1px #fffbe5}
+.duel-skill:not(:disabled):hover,.duel-commands>button:not(:disabled):hover{border-color:#a89053;background:linear-gradient(#fff1c8,#e5dcad)}
+.duel-intent{background:#e5e9ce;border-color:#afbd8a}
+.duel-intent.danger{background:#f4e2bd;border-color:#c69c69}
+.travel-world{background:#478977;border:2px solid #829d71;box-shadow:inset 0 0 0 2px #fff1bf40,0 3px #54725b33}
+.travel-location{color:#fff0ca;background:#1b5149ef;padding:5px 8px;border:1px solid #aaba8b;border-radius:7px}
+.travel-state{color:#fff1cb;background:#194e4be8;left:10px;right:10px;bottom:7px;border-radius:6px;padding:4px}
+.travel-party strong{width:74%;margin-inline:auto}
+.travel-destination{color:#ffe8ad;text-shadow:0 2px #3c6b5c}
+.travel-destination>small{color:#63502e;background:#fff0c7;text-shadow:none}
+.is-walking .scenery-distant{animation:world-travel 5s ease-in-out infinite}
+@keyframes world-glimmer{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes world-water{0%,100%{opacity:.25}50%{opacity:.5}}
+@keyframes world-travel{0%,100%{translate:0 0}50%{translate:-15px 0}}
+.reduced-motion :is(.scenery-motes,.island-light-motes,.island-water-rings,.scenery-distant),.reduced-motion .hatch-stage::after,.duel-quiet :is(.scenery-motes,.scenery-distant),.duel-screen.auto-paused :is(.scenery-motes,.scenery-distant){animation:none!important}
+@media(prefers-reduced-motion:reduce){.scenery-motes,.island-light-motes,.island-water-rings,.scenery-distant,.hatch-stage::after{animation:none!important}}
+@media(max-width:600px){
+  .lobby-tip{font-size:8px;padding:4px 8px}
+  .duel-arena .duel-scene-caption{font-size:7px}
+}

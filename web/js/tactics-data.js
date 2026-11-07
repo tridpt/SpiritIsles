@@ -1,0 +1,92 @@
+export const COMBAT_ROLES = {
+  attack:{name:'Công kích',icon:'swords',color:'#bd775b'},
+  guard:{name:'Hộ vệ',icon:'shield',color:'#719582'},
+  heal:{name:'Hồi phục',icon:'heart',color:'#739e69'},
+  support:{name:'Hỗ trợ',icon:'sparkle',color:'#9984ad'}
+};
+
+// Support percentages use the recipient's maximum HP (the team pool in old saves).
+// Names and artwork stay with the species catalog. Every species has an explicit kit.
+const kinds = {
+  kindle:{role:'attack',power:1.25,burn:.3,burnTurns:3},
+  strike:{role:'attack',power:2.25},
+  pierce:{role:'attack',power:1.95,pierce:true},
+  drain:{role:'attack',power:1.65,heal:.16},
+  mend:{role:'heal',power:.55,heal:.34},
+  bloom:{role:'heal',power:.65,heal:.14,regen:.08,regenTurns:3},
+  ward:{role:'guard',power:.7,ward:.32},
+  thorn:{role:'guard',power:.75,ward:.2,counter:.3,counterTurns:3},
+  lull:{role:'support',power:.95,weaken:.35,weakenTurns:2},
+  rally:{role:'support',power:.65,boost:.3,boostTurns:3},
+  charge:{role:'support',power:.4,gain:2,boost:.15,boostTurns:2},
+  shatter:{role:'support',power:1.25,breakShield:true,weaken:.2,weakenTurns:2}
+};
+const kit=(kind,cost,cooldown,extra={})=>({...kinds[kind],cost,cooldown,...extra});
+export const PET_SKILLS = {
+  mossfox:kit('bloom',2,3,{regen:.07}),
+  axolotl:kit('mend',2,2,{power:.65}),
+  emberbird:kit('kindle',2,2,{burn:.26}),
+  cottonbun:kit('charge',1,3),
+  sunseal:kit('mend',2,3,{heal:.25,ward:.12}),
+  nightcat:kit('lull',2,2,{weaken:.3}),
+  mushroom:kit('bloom',2,2,{heal:.1,regen:.09}),
+  pebbleturtle:kit('ward',2,2,{power:.6,ward:.34}),
+  ferncat:kit('thorn',2,3,{ward:.25,counter:.24}),
+  flamefox:kit('kindle',2,3,{power:1.4,burn:.32}),
+  breezebird:kit('rally',1,3,{power:.4,boost:.24}),
+  stardeer:kit('shatter',2,2,{power:1.4}),
+  duskbun:kit('lull',2,3,{ward:.12,weaken:.32}),
+  coralseal:kit('mend',2,3,{heal:.32,regen:.06,regenTurns:2}),
+  blossomdeer:kit('bloom',2,3,{heal:.18,regen:.09}),
+  lavadragon:kit('kindle',2,3,{power:1.6,burn:.35}),
+  cloudfox:kit('ward',2,3,{ward:.27,boost:.2,boostTurns:2}),
+  moonjelly:kit('drain',2,3,{power:1.8,weaken:.2,weakenTurns:2}),
+  glowmush:kit('rally',2,3,{power:1,boost:.35,gain:1}),
+  forestking:kit('bloom',3,3,{power:1.1,heal:.3,regen:.1}),
+  oceandragon:kit('pierce',3,3,{power:2.65,heal:.2}),
+  phoenix:kit('kindle',3,3,{power:2.1,burn:.38,heal:.12}),
+  skywhale:kit('ward',3,3,{power:1.2,ward:.4,boost:.25,boostTurns:2}),
+  sunfox:kit('strike',3,3,{power:2.9,heal:.18}),
+  eclipsecat:kit('drain',3,3,{power:2.3,heal:.22,pierce:true}),
+  lotusseal:kit('bloom',2,3,{heal:.22,regen:.08,ward:.08}),
+  mistfox:kit('kindle',2,3,{power:1.35,burn:.3,boost:.18,boostTurns:2}),
+  nebularabbit:kit('lull',2,3,{power:.8,weaken:.38,heal:.16}),
+  sproutpanda:kit('ward',2,3,{ward:.3,regen:.05,regenTurns:2}),
+  bubbleotter:kit('pierce',2,2,{power:2.05}),
+  cinderhog:kit('thorn',2,2,{ward:.18,counter:.35}),
+  dandelionpup:kit('strike',2,2,{power:2.15,gain:1}),
+  honeyhamster:kit('charge',1,3,{power:0,heal:.12}),
+  duskbat:kit('drain',2,2,{power:1.5,heal:.2}),
+  maplehog:kit('thorn',2,3,{power:1,ward:.18,counter:.32}),
+  frostpenguin:kit('lull',2,2,{power:1.35,weaken:.25}),
+  emberlion:kit('rally',2,3,{power:1.25,boost:.32}),
+  zephyrowl:kit('charge',1,3,{power:.6,boost:.12,boostTurns:3}),
+  sunmoth:kit('bloom',2,3,{heal:.12,regen:.1,power:.75}),
+  inkwolf:kit('pierce',2,3,{power:2.1,weaken:.18,weakenTurns:2}),
+  orchidwing:kit('bloom',2,3,{heal:.16,regen:.08,boost:.15,boostTurns:2}),
+  jadepanda:kit('thorn',2,3,{ward:.28,counter:.3,regen:.04,regenTurns:2}),
+  pearlray:kit('ward',2,2,{power:.8,ward:.26,heal:.1}),
+  frostkitsune:kit('lull',2,3,{power:1.5,weaken:.4}),
+  rubykirin:kit('kindle',2,3,{power:1.75,burn:.3,burnTurns:2}),
+  lanternkoi:kit('rally',2,3,{power:1.1,boost:.28,burn:.2,burnTurns:2}),
+  stormgriffin:kit('pierce',2,3,{power:2.35}),
+  ribbonmoth:kit('ward',2,3,{power:.5,ward:.24,regen:.08,regenTurns:2}),
+  dawnunicorn:kit('mend',2,3,{heal:.36,weaken:.2,weakenTurns:2}),
+  aureliapeacock:kit('shatter',2,3,{power:1.65,boost:.22,boostTurns:2}),
+  dreamserpent:kit('lull',2,3,{power:1.2,weaken:.3,regen:.07,regenTurns:2}),
+  amethystowl:kit('shatter',2,3,{power:1.7,gain:1}),
+  worldturtle:kit('thorn',3,3,{power:1.1,ward:.38,counter:.4}),
+  astralkoi:kit('pierce',3,3,{power:2.45,boost:.3,boostTurns:2}),
+  solarkirin:kit('kindle',3,3,{power:2.5,burn:.4}),
+  celestialgriffin:kit('strike',3,3,{power:2.7,boost:.3,boostTurns:2}),
+  seraphdeer:kit('mend',3,3,{power:1,heal:.42,ward:.2}),
+  voiddragon:kit('shatter',3,3,{power:2.6,weaken:.35,weakenTurns:2,pierce:true})
+};
+
+export const ELEMENT_COMBOS = [
+  {id:'bloom',elements:['leaf','water'],name:'Nảy mầm',icon:'sprout',text:'Hồi ngay 12% sinh lực đội.',heal:.12},
+  {id:'steam',elements:['water','fire'],name:'Hơi nước',icon:'cloud',text:'Chiêu sau tăng 35% sát thương và xuyên khiên.',damage:.35,pierce:true},
+  {id:'firestorm',elements:['fire','wind'],name:'Hỏa phong',icon:'flame',text:'Thêm thiêu đốt bằng 40% đòn thường trong 2 lượt tới.',burn:.4,burnTurns:2},
+  {id:'canopy',elements:['leaf','wind'],name:'Tán lá',icon:'leaf',text:'Tạo khiên bằng 18% sinh lực đội.',ward:.18},
+  {id:'eclipse',elements:['light','shadow'],name:'Nhật thực',icon:'moon',text:'Phá hết khiên địch, giảm 25% đòn đánh trong 2 lượt.',breakShield:true,weaken:.25,weakenTurns:2}
+];
